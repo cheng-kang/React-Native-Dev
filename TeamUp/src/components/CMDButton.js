@@ -1,30 +1,30 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 
-const CMDButton = ({ onPress, children }) => {
-	const buttonStyle = {
+const CMDButton = ({ onPress, titleStyle, children }) => {
+	const _buttonStyle = {
 		alignSelf: 'center'
 	};
 
-	const viewStyle = {
+	const _borderStyle = {
 		height: 1,
 		borderWidth: 0.5,
 		borderColor: 'white',
 		borderStyle: 'dashed'
 	};
-	const textStyle = {
+	const _textStyle = {
 		color: 'white',
 		alignSelf: 'center',
 		// fontWeight: 'bold',
 	};
 	return (
-		<TouchableOpacity onPress={onPress} style={buttonStyle}>
-			<Text style={textStyle}>
+		<TouchableOpacity onPress={onPress} style={_buttonStyle}>
+			<Text style={{ ..._textStyle, ...titleStyle }}>
 				{children}
 			</Text>
-			<View style={viewStyle} />
+			<View style={_borderStyle} />
 		</TouchableOpacity>
 	);
 };
 
-export default CMDButton;
+export { CMDButton };

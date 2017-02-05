@@ -2,21 +2,23 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { 
 	View, 
-	Text, 
-	Image,
+	Image, 
+	Text,
 	ActivityIndicator
 } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 import { CMDInput, CMDButton } from '../../components/';
-import LaunchScreen from '../LaunchScreen';
-import { emailChanged, passwordChanged, signIn } from '../../actions';
+import { 
+	emailChanged, 
+	passwordChanged, 
+	confirmPasswordChanged, 
+	signUp, 
+	beginSignUp 
+} from '../../actions';
 
-class SignInPage extends Component {
-
+class SignUpPage extends Component {
 	componentWillMount() {
-		console.log(this.props.data);
+		this.props.beginSignUp();
 	}
-
 	TitleLbl() {
 		return (
 			<Image 
@@ -34,7 +36,7 @@ class SignInPage extends Component {
 			<CMDInput 
 				label="email"
 				value={email}
-				placeholder="name@example.com"
+				placeholder="your email"
 				onChangeText={(text) => { this.props.emailChanged(text); }}
 			/>
 		);
@@ -46,9 +48,22 @@ class SignInPage extends Component {
 			<CMDInput 
 				label="password"
 				value={password}
-				placeholder="********"
+				placeholder="8 digit password"
 				secureTextEntry
 				onChangeText={(text) => { this.props.passwordChanged(text); }}
+			/>
+		);
+	}
+
+	ConfirmPasswordInput() {
+		const { confirmPassword } = this.props;
+		return (
+			<CMDInput 
+				label="Confirm"
+				value={confirmPassword}
+				placeholder="confirm your password"
+				secureTextEntry
+				onChangeText={(text) => { this.props.confirmPasswordChanged(text); }}
 			/>
 		);
 	}
@@ -68,26 +83,13 @@ class SignInPage extends Component {
 		}
 	}
 
-	SignInButton() {
-		const { email, password, loading } = this.props;
-		if (!loading) {
-			return (
-				<CMDButton
-					onPress={() => { this.props.signIn({ email, password }); }}
-					titleStyle={{ fontSize: 18 }}
-				>
-				sign in
-				</CMDButton>
-			);
-		}
-	}
-
 	SignUpButton() {
-		const { loading } = this.props;
+		const { email, password, confirmPassword, loading } = this.props;
 		if (!loading) {
 			return (
 				<CMDButton 
-					onPress={() => { Actions.signup(); }}
+					onPress={() => { this.props.signUp({ email, password, confirmPassword }); }}
+					titleStyle={{ fontSize: 18 }}
 				>
 				sign up
 				</CMDButton>
@@ -114,18 +116,18 @@ class SignInPage extends Component {
 			flex: 1,
 			paddingBottom: 30
 		};
+
 		return (
 			<View style={pageStyle} >
 				{this.TitleLbl()}
 				{this.EmailInput()}
 				{this.PasswordInput()}
+				{this.ConfirmPasswordInput()}
 				{this.ErrorMessage()}
 				<View style={{ justifyContent: 'center' }}>
-					{this.SignInButton()}
+					{this.SignUpButton()}
 					{this.LoadingIndicator()}
 				</View>
-				<View style={{ flexGrow: 1 }} />
-				{this.SignUpButton()}
 			</View>
 
 		);
@@ -133,10 +135,10 @@ class SignInPage extends Component {
 }
 
 const mapStateToProps = ({ auth }) => {
-	const { email, password, error, loading } = auth;
-	return { email, password, error, loading };
+	const { email, password, confirmPassword, error, loading } = auth;
+	return { email, password, confirmPassword, error, loading };
 };
 
 export default connect(mapStateToProps, {
-	emailChanged, passwordChanged, signIn
-})(SignInPage);
+	emailChanged, passwordChanged, confirmPasswordChanged, signUp, beginSignUp
+})(SignUpPage);

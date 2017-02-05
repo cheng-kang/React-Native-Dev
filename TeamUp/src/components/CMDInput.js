@@ -13,7 +13,7 @@ const CMDInput = ({ label, value, onChangeText, placeholder, secureTextEntry }) 
 	};
 
 	return (
-		<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+		<View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10 }}>
 			<View style={{ flexDirection: 'row' }}>
 				<Text style={{ color: '#01DD06', fontWeight: 'bold' }}># </Text>
 				<Text style={{ color: '#fff01c', fontWeight: 'bold' }}>{label}</Text>
@@ -33,4 +33,4 @@ const CMDInput = ({ label, value, onChangeText, placeholder, secureTextEntry }) 
 	);
 };
 
-export default CMDInput;
+export { CMDInput };
