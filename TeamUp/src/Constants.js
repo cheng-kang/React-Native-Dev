@@ -19,4 +19,5 @@ export const Event = {
 	GetMyEventListSuccess: 'GetMyEventListSuccess',
 	GoToEventDetail: 'GoToEventDetail',
 	GetEventDetailSuccess: 'GetEventDetailSuccess',
+	GetEventListSuccess: 'GetEventListSuccess'
 };

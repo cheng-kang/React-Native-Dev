@@ -1,23 +1,22 @@
 import React, { Component } from 'react';
-import firebase from 'firebase';
-import { View, ListView } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { getMyEventList } from '../../actions';
+import { View, ListView, Text } from 'react-native';
+import { getEventList } from '../../actions';
 import { CMDLine } from '../../components';
 import { ActionsView, ActionListItem, EventListItem, PrintListMsg } from './components';
 
-class MyEventsPage extends Component {
+class EventSquarePage extends Component {
 	componentWillMount() {
-		this.props.getMyEventList();
+		this.props.getEventList();
 
 		this.createDataSource(this.props);
 	}
 	componentWillReceiveProps(nextProps) {
 		this.createDataSource(nextProps);
 	}
-	createDataSource({ myEvents }) {
-		if (myEvents == null) {
+	createDataSource({ events }) {
+		if (events == null) {
 			const ds = new ListView.DataSource({
 				rowHasChanged: (r1, r2) => r1 !== r2
 			});
@@ -28,45 +27,34 @@ class MyEventsPage extends Component {
 				rowHasChanged: (r1, r2) => r1 !== r2
 			});
 
-			this.dataSource = ds.cloneWithRows(myEvents);
+			this.dataSource = ds.cloneWithRows(events);
 		}
 	}
-	componentDidMount() {
-		// setTimeout(() => {
-		// 	firebase.auth().signOut()
-		// 		.then(() => {
-		// 			console.log('sign out');
-		// 		})
-		// 		.catch(() => {
-		// 			console.log('sign out fail');
-		// 		});
-		// }, 500);
-	}
 	eventList() {
-		const { myEvents } = this.props;
-		if (myEvents == null) {
+		const { events } = this.props;
+		if (events == null) {
 			return (
 				<CMDLine>
-					Fetching myEventList data for you...
+					Fetching eventList data for you...
 				</CMDLine>
 			);
-		} else if (myEvents.length === 0) {
+		} else if (events.length === 0) {
 			return (
 				<CMDLine style={{ color: 'yellow' }} >
-					MyEventList data not found, go to EventList to join an event.
+					No event available.
 				</CMDLine>
 			);
-		} 
+		}
+
 		return (
 			<View
 				style={{ flex: 1 }}
 			>
-				<PrintListMsg title="myEventList" />
+				<PrintListMsg title="eventList" />
 				<ListView
 					enableEmptySections
 					dataSource={this.dataSource}
 					renderRow={this.renderRow}
-					style={{ }}
 				/>
 			</View>
 		);
@@ -74,9 +62,9 @@ class MyEventsPage extends Component {
 	actions(title) {
 		const actionList = (
 				<ActionListItem 
-					title="square"
-					desc="Go to Event Square to view all events!"
-					onPress={() => { Actions.square({ type: 'reset' }); }}
+					title="my"
+					desc="Go to you event list."
+					onPress={() => { Actions.myevents({ type: 'reset' }); }}
 				/>
 		);
 		return (
@@ -107,9 +95,9 @@ class MyEventsPage extends Component {
 				<CMDLine>
 				Last fetch: {date}
 				</CMDLine>
-				{this.actions('MyEvents')}
+				{this.actions('Square')}
 				<CMDLine>
-				$ fetch myEventList
+				$ fetch eventList
 				</CMDLine>
 				{this.eventList()}
 			</View>
@@ -118,11 +106,11 @@ class MyEventsPage extends Component {
 }
 
 const mapStateToProps = ({ event }) => {
-	const { myEvents, currentEvent } = event;
-
-	return { myEvents, currentEvent };
+	const { events } = event;
+	console.log(events);
+	return { events };
 };
 
 export default connect(mapStateToProps, {
-	getMyEventList
-})(MyEventsPage);
+	getEventList
+})(EventSquarePage);

@@ -6,6 +6,7 @@ import SignInPage from './pages/auth/SignInPage';
 import SignUpPage from './pages/auth/SignUpPage';
 import MyEventsPage from './pages/event/MyEventsPage';
 import EventPage from './pages/event/EventPage';
+import EventSquarePage from './pages/event/EventSquarePage';
 import LaunchScreen from './pages/LaunchScreen';
 
 // console.log(this.props);
@@ -20,7 +21,7 @@ const RouterComponent = () => {
 			<Scene 
 				key="root"
 				component={FirebaseSwitch}
-				selector={props => props.signedIn == null ? 'launch' : props.signedIn ? 'event' : 'auth'}
+				selector={props => props.signedIn == null ? 'launch' : props.signedIn ? 'events' : 'auth'}
 				tabs
 				hideNavBar={true}
 			>
@@ -44,15 +45,15 @@ const RouterComponent = () => {
 						key="signup" 
 						component={SignUpPage} 
 						title="Sign Up" 
+						sceneStyle={{ paddingTop: 65 }}
 						backTitle="<-"
-						sceneStyle={{ paddingTop: 65 }} 
 						backButtonTextStyle={{ color: '#fff', fontWeight: '400', fontSize: 20 }}
 						hideBackImage
 					/>
 				</Scene>
 
 				<Scene 
-					key="event" 
+					key="events" 
 				>
 					<Scene
 						key="myevents"
@@ -66,6 +67,18 @@ const RouterComponent = () => {
 						component={EventPage}
 						title="Event"
 						sceneStyle={{ paddingTop: 65 }} 
+						backTitle="<-"
+						backButtonTextStyle={{ color: '#fff', fontWeight: '400', fontSize: 20 }}
+						hideBackImage
+					/>
+					<Scene
+						key="square"
+						component={EventSquarePage}
+						title="Square"
+						sceneStyle={{ paddingTop: 65 }} 
+						backTitle="<-"
+						backButtonTextStyle={{ color: '#fff', fontWeight: '400', fontSize: 20 }}
+						hideBackImage
 					/>
 				</Scene>
 			</Scene>

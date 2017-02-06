@@ -1,21 +1,25 @@
 import { Event } from '../Constants';
 
 const INITIAL_STATE = {
-	myEvents: [],
-	event: null,
+	myEvents: null,
+	currentEvent: null,
+	events: null
 };
 
 export default (state = INITIAL_STATE, action) => {
-	switch (action.type) {
+	const { type, payload } = action;
+	switch (type) {
 		case Event.GetMyEventListSuccess:
 			return {
 				...state,
-				myEvents: action.payload
+				myEvents: payload
 			};
 		case Event.GoToEventDetail:
 			return {};
 		case Event.GetEventDetailSuccess:
-			return {};
+			return { ...state, currentEvent: payload };
+		case Event.GetEventListSuccess:
+			return { ...state, events: payload };
 		default:
 			return state;
 	}

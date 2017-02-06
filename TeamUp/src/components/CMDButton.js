@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 
-const CMDButton = ({ onPress, titleStyle, children }) => {
+const CMDButton = ({ onPress, titleStyle, buttonStyle, children }) => {
 	const _buttonStyle = {
 		alignSelf: 'center'
 	};
@@ -18,7 +18,7 @@ const CMDButton = ({ onPress, titleStyle, children }) => {
 		// fontWeight: 'bold',
 	};
 	return (
-		<TouchableOpacity onPress={onPress} style={_buttonStyle}>
+		<TouchableOpacity onPress={onPress} style={{ ..._buttonStyle, ...buttonStyle }}>
 			<Text style={{ ..._textStyle, ...titleStyle }}>
 				{children}
 			</Text>
