@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { CMDLine } from '../../../components';
+import { CommandMsg } from './CommandMsg.js';
 
 class ActionsView extends Component {
 	render() {
@@ -9,10 +10,9 @@ class ActionsView extends Component {
 			<View 
 				style={{}}
 			>
-				<CMDLine>
-				$ {title} --actions {'\n\n'}
+				<CommandMsg title={title} command="actions" >
 				Actions:
-				</CMDLine>
+				</CommandMsg>
 				{actionList}
 			</View>
 		);

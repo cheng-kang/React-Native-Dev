@@ -1,14 +1,17 @@
 import React from 'react';
 import { CMDLine } from '../../components';
 
-const PrintListMsg = ({ title }) => {
+const CommandMsg = ({ title, command, hideLine = false }) => {
 	return (
 		<CMDLine>
-		$ {title} --print
-		{'\n\n'}
-		---------------------------------------
+		$ {title} --{command}
+		{((hl) => { 
+			if (!hl) { 
+				return ('\n\n---------------------------------------');
+			}
+		})(hideLine)}
 		</CMDLine>
 	);
 };
 
-export { PrintListMsg };
+export { CommandMsg };

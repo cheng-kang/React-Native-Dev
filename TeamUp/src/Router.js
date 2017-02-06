@@ -1,6 +1,5 @@
 import React from 'react';
-import { Scene, Router, Switch } from 'react-native-router-flux';
-import { connect } from 'react-redux';
+import { Scene, Router } from 'react-native-router-flux';
 import FirebaseSwitch from './FirebaseSwitch';
 import SignInPage from './pages/auth/SignInPage';
 import SignUpPage from './pages/auth/SignUpPage';
@@ -9,8 +8,6 @@ import EventPage from './pages/event/EventPage';
 import EventSquarePage from './pages/event/EventSquarePage';
 import LaunchScreen from './pages/LaunchScreen';
 
-// console.log(this.props);
-// console.log(props);
 
 const RouterComponent = () => {
 	return (
@@ -21,15 +18,14 @@ const RouterComponent = () => {
 			<Scene 
 				key="root"
 				component={FirebaseSwitch}
-				selector={props => props.signedIn == null ? 'launch' : props.signedIn ? 'events' : 'auth'}
+				selector={props => props.signedIn == null ? 'launch' : props.signedIn ? 'main' : 'auth'}
 				tabs
-				hideNavBar={true}
+				hideNavBar
 			>
 				<Scene 
 					key="launch" 
 					component={LaunchScreen} 
-					hideNavBar={true} 
-
+					hideNavBar
 				/>
 				<Scene 
 					key="auth" 
@@ -53,7 +49,7 @@ const RouterComponent = () => {
 				</Scene>
 
 				<Scene 
-					key="events" 
+					key="main" 
 				>
 					<Scene
 						key="myevents"

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
-import _ from 'lodash';
+import firebase from 'firebase';
 import { getEvent } from '../../actions';
 import { CMDLine, CMDButton } from '../../components';
-import { ActionListItem } from './components';
+import { ActionListItem, LastFetchMsg, CommandMsg } from './components';
 
 class EventPage extends Component {
 	componentWillMount() {
@@ -56,68 +56,49 @@ class EventPage extends Component {
 		);
 	}
 	eventDetail() {
-		const lineStyle = {
-			fontWeight: '500',
-			marginTop: 10,
-			marginBottom: 10,
-			paddingLeft: 10,
-			paddingRight: 10
-		};
 		console.log('Should render event details.');
 		console.log(this.currentEvent);
 		if (this.currentEvent) {
-			const { title, desc, date, location } = this.currentEvent;
-			// const detailsView = _.map(this.currentEvent, (value, key) => {
-			// 	if (key !== 'id') {
-			// 		return (
-			// 			<View style={{ flexDirection: 'row', justifyContent: 'flex-start' }} >
-			// 				<Text style={{ flex: 1, ...infoStyle }} >
-			// 				-{key}
-			// 				</Text>
-			// 				<Text style={{ flex: 3, ...infoStyle }} >
-			// 				{value}
-			// 				</Text>
-			// 			</View>
-			// 		);
-			// 	}
-			// });
+			const { title, desc, date, location, registeredUser } = this.currentEvent;
+			const { currentUser } = firebase.auth();
+			const registerText = (registeredUser && registeredUser[currentUser.uid]) ? 'Registered' : 'Not Registered';
+			const registeredCount = registeredUser ? Object.keys(registeredUser).length : 0;
 			return (
 				<View
 					style={{ flex: 1 }}
 				>
-					<CMDLine>
-					=========================== {'\n\n'}
-					$ {title} --details {'\n\n'}
+					<CommandMsg title={title} command="details" >
 					Info:
-					</CMDLine>
+					</CommandMsg>
 					{this.detailsViewItem('title', title)}
 					{this.detailsViewItem('date', date)}
 					{this.detailsViewItem('location', location)}
 					{this.detailsViewItem('desc', desc)}
-					<CMDLine>
-					$ {title} --status {'\n\n'}
+					<CommandMsg title={title} command="status" >
 					Status:
-					</CMDLine>
+					</CommandMsg>
 					{this.detailsViewItem('event', 'Ended')}
-					{this.detailsViewItem('you', 'Joined in')}
+					{this.detailsViewItem('registered', registeredCount)}
+					{this.detailsViewItem('you', registerText)}
 					{this.eventActions(title)}
 				</View>
 			);
-		} else {
-			return (
-				<Text>...</Text>
-			);
 		}
+
+		return (
+			<CMDLine>
+				Fetching myEventList data for you...
+			</CMDLine>
+		);
 	}
 	eventActions(title) {
 		return (
 			<View 
 				style={{}}
 			>
-				<CMDLine>
-				$ {title} --actions {'\n\n'}
+				<CommandMsg title={title} command="actions" >
 				Actions:
-				</CMDLine>
+				</CommandMsg>
 				<ActionListItem 
 					title="join"
 					desc="You can join this event and start to find team members!"
@@ -149,25 +130,10 @@ class EventPage extends Component {
 			flex: 1,
 			paddingBottom: 30
 		};
-		const welcomMsgStyle = {
-			color: '#fff',
-			fontWeight: '500',
-			marginTop: 10,
-			marginBottom: 10,
-			paddingLeft: 10
-
-		};
-		const dateString = (new Date()).toUTCString();
-		const date = dateString.substring(0, dateString.length - 4);
 		return (
 			<ScrollView style={pageStyle} >
-				<CMDLine>
-				Last fetch: {date}
-				</CMDLine>
-				<CMDLine>
-				$ fetch event {title} {'\n\n'}
-				loading...
-				</CMDLine>
+				<LastFetchMsg />
+				<CommandMsg title={'fetch event ' + title} />
 				{this.eventDetail()}
 			</ScrollView>
 		);

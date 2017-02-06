@@ -4,7 +4,7 @@ import { Actions } from 'react-native-router-flux';
 import { View, ListView, Text } from 'react-native';
 import { getEventList } from '../../actions';
 import { CMDLine } from '../../components';
-import { ActionsView, ActionListItem, EventListItem, PrintListMsg } from './components';
+import { ActionsView, ActionListItem, EventListItem, CommandMsg, LastFetchMsg } from './components';
 
 class EventSquarePage extends Component {
 	componentWillMount() {
@@ -50,7 +50,7 @@ class EventSquarePage extends Component {
 			<View
 				style={{ flex: 1 }}
 			>
-				<PrintListMsg title="eventList" />
+				<CommandMsg title="eventList" command="print" hideLine={false} />
 				<ListView
 					enableEmptySections
 					dataSource={this.dataSource}
@@ -88,17 +88,11 @@ class EventSquarePage extends Component {
 			flex: 1,
 			paddingBottom: 30
 		};
-		const dateString = (new Date()).toUTCString();
-		const date = dateString.substring(0, dateString.length - 4);
 		return (
 			<View style={pageStyle} >
-				<CMDLine>
-				Last fetch: {date}
-				</CMDLine>
+				<LastFetchMsg />
 				{this.actions('Square')}
-				<CMDLine>
-				$ fetch eventList
-				</CMDLine>
+				<CommandMsg title="fetch eventList" />
 				{this.eventList()}
 			</View>
 		);

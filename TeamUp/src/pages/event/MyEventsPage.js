@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { getMyEventList } from '../../actions';
 import { CMDLine } from '../../components';
-import { ActionsView, ActionListItem, EventListItem, PrintListMsg } from './components';
+import { ActionsView, ActionListItem, EventListItem, CommandMsg, LastFetchMsg } from './components';
 
 class MyEventsPage extends Component {
 	componentWillMount() {
@@ -61,7 +61,7 @@ class MyEventsPage extends Component {
 			<View
 				style={{ flex: 1 }}
 			>
-				<PrintListMsg title="myEventList" />
+				<CommandMsg title="myEventList" command="print" hideLine={false} />
 				<ListView
 					enableEmptySections
 					dataSource={this.dataSource}
@@ -100,17 +100,11 @@ class MyEventsPage extends Component {
 			flex: 1,
 			paddingBottom: 30
 		};
-		const dateString = (new Date()).toUTCString();
-		const date = dateString.substring(0, dateString.length - 4);
 		return (
 			<View style={pageStyle} >
-				<CMDLine>
-				Last fetch: {date}
-				</CMDLine>
+				<LastFetchMsg />
 				{this.actions('MyEvents')}
-				<CMDLine>
-				$ fetch myEventList
-				</CMDLine>
+				<CommandMsg title="fetch myEventList" />
 				{this.eventList()}
 			</View>
 		);
