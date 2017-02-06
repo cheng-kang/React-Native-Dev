@@ -71,3 +71,22 @@ A repository to record my study progress of react native.
   }
   ```
   > Reference: [Looping Json & Display in React Native](http://stackoverflow.com/a/34253075/5630767)
+
+3. "Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: object."
+
+  > or "Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined."
+  
+  1. You might forget to export your component.
+  2. You might make the same mistake as I did : D (Actually, I've made this mistake twice. Shame on me : ))
+    ```
+      // My Mistake
+      // I tried to import this component without thinking
+      // because I've wrote so many similar import when writing react-native
+      // However, if your component is not exported as a group,
+      // you should not import it this way
+      import { EventListItem } from './EventListItem';
+      
+      // Correct code
+      import EventListItem from './EventListItem';
+      
+    ```
