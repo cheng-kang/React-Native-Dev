@@ -4,7 +4,7 @@ A repository to record my study progress of react native.
 
 ## Notes
 
-1. Create a new object using { ...object, something else }
+1. Merging objects by { ...object, anotherVariable }
 
   I trid to create a new object with the key from firebase data snapshot added to it's val() with the following code:
   
