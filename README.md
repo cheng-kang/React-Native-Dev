@@ -91,3 +91,7 @@ A repository to record my study progress of react native.
       import EventListItem from './EventListItem';
       
     ```
+
+5. "undefined is not an object (evaluating '...')"
+
+  Read the information surrounded by single quote, you must have forgot to import related module.
