@@ -43,3 +43,31 @@ A repository to record my study progress of react native.
       });
     });
   ```
+
+2. Looping Json & Display in React Native
+
+  Use `map()` to generate an `array of Views` and display it.
+  
+  ```
+  render: function() {
+     console.log(this.state.list);
+     contents = this.state.list.results.map(function (item) {
+        return (
+          <View key={item.user.email} style={ styles.content }>
+            <Text>{item.user.email}</Text>
+          </View>
+        );
+     });
+     return (
+      <View style={ styles.container }>
+        <View style={ styles.header }>
+        <Text style={ styles.headerText }>XXX</Text>
+        </View>
+        <View style={ styles.content }>
+            { contents }
+        </View>
+      </View>
+    );
+  }
+  ```
+  > Reference: [Looping Json & Display in React Native](http://stackoverflow.com/a/34253075/5630767)
