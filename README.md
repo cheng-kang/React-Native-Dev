@@ -74,10 +74,11 @@ A repository to record my study progress of react native.
 
 3. "Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: object."
 
-  > or "Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined."
+  You might **forget to export your component**.
+    
+4. "Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined."
   
-  1. You might forget to export your component.
-  2. You might make the same mistake as I did : D (Actually, I've made this mistake twice. Shame on me : ))
+  You might make the same mistake as I did : D (Actually, I've made this mistake twice. Shame on me : ))
     ```
       // My Mistake
       // I tried to import this component without thinking
