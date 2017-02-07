@@ -95,3 +95,19 @@ A repository to record my study progress of react native.
 5. "undefined is not an object (evaluating '...')"
 
   Read the information surrounded by single quote, you must have forgot to import related module.
+  
+6. "invalid data message - all must be length: 3"
+
+  This error occurred when I try to do the following:
+  ```
+  <Button
+    onPress={this.props.registerEvent(id, title)}
+  />
+  ```
+  This is how I fixed the issue:
+  ```
+  <Button
+    onPress={() => { this.props.registerEvent(id, title) }}
+  />
+  ```
+  My understanding to this issue is that you should pass a `callback function` (method body, instead of a invocation of method) to `onPress` property. 
