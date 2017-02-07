@@ -20,4 +20,8 @@ export const Event = {
 	GoToEventDetail: 'GoToEventDetail',
 	GetEventDetailSuccess: 'GetEventDetailSuccess',
 	GetEventListSuccess: 'GetEventListSuccess',
+	RegisterEventSuccess: 'RegisterEventSuccess',
+	RegisterEventFail: 'RegisterEventFail',
+	UnregisterEventSuccess: 'UnregisterEventSuccess',
+	UnregisterEventFail: 'UnregisterEventFail',
 };

@@ -40,3 +40,72 @@ export const getEventList = () => {
 			});
 	};
 };
+
+export const registerEvent = (id, title) => {
+	const { currentUser } = firebase.auth();
+	const date = (new Date()).toUTCString();
+	const updates = {};
+	updates[`/events/${id}/registeredUser/${currentUser.uid}`] = {
+		regDate: date
+	};
+	updates[`/users/events/${id}`] = {
+		date,
+		title
+	};
+
+	return (dispatch) => {
+		firebase.database().ref()
+			.update(updates)
+			.then(() => {
+				dispatch({ 
+					type: Event.RegisterEventSuccess, 
+					payload: { 
+						title, 
+						command: 'register', 
+						children: `Success: registered for event ${title}` 
+					}
+				});
+			})
+			.catch(() => {
+				dispatch({ 
+					type: Event.RegisterEventFail, 
+					payload: { 
+						title, 
+						command: 'register', 
+						children: `Fail: attempted to register for event ${title}` 
+					}
+				});
+			});
+	};
+};
+
+export const unregisterEvent = (id, title) => {
+	const { currentUser } = firebase.auth();
+	const updates = {};
+	updates[`/events/${id}/registeredUser/${currentUser.uid}`] = null;
+	updates[`/users/events/${id}`] = null;
+
+	return (dispatch) => {
+		firebase.database().ref()
+			.update(updates)
+			.then(() => {
+				dispatch({ 
+					type: Event.UnregisterEventSuccess, 
+					payload: { 
+						title, 
+						command: 'unregister', 
+						children: `Success: unregistered for event ${title}` }
+				});
+			})
+			.catch(() => {
+				dispatch({ 
+					type: Event.UnregisterEventFail, 
+					payload: { 
+						title, 
+						command: 'unregister', 
+						children: `Fail: attempted to register for event ${title}` 
+					}
+				});
+			});
+	};
+};

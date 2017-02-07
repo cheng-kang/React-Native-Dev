@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
-import { getEvent } from '../../actions';
+import { getEvent, registerEvent, unregisterEvent } from '../../actions';
 import { CMDLine, CMDButton } from '../../components';
 import { ActionListItem, LastFetchMsg, CommandMsg } from './components';
 
@@ -10,9 +10,15 @@ class EventPage extends Component {
 	componentWillMount() {
 		this.props.getEvent(this.props.event.id);
 		this.currentEvent = this.props.currentEvent;
+
+		this.actionMsg = null;
 	}
 	componentWillReceiveProps(nextProps) {
 		this.currentEvent = nextProps.currentEvent;
+		const msg = nextProps.actionMsg;
+		if (msg != null) {
+			this.actionMsg = msg;
+		}
 	}
 	detailsViewItem(key, value) {
 		const infoStyle = {
@@ -55,13 +61,13 @@ class EventPage extends Component {
 			</View>
 		);
 	}
+
 	eventDetail() {
-		console.log('Should render event details.');
-		console.log(this.currentEvent);
 		if (this.currentEvent) {
-			const { title, desc, date, location, registeredUser } = this.currentEvent;
+			const { id, title, desc, date, location, registeredUser } = this.currentEvent;
 			const { currentUser } = firebase.auth();
-			const registerText = (registeredUser && registeredUser[currentUser.uid]) ? 'Registered' : 'Not Registered';
+			const isRegistered = registeredUser && registeredUser[currentUser.uid];
+			const registerText = isRegistered ? 'Registered' : 'Not Registered';
 			const registeredCount = registeredUser ? Object.keys(registeredUser).length : 0;
 			return (
 				<View
@@ -80,7 +86,7 @@ class EventPage extends Component {
 					{this.detailsViewItem('event', 'Ended')}
 					{this.detailsViewItem('registered', registeredCount)}
 					{this.detailsViewItem('you', registerText)}
-					{this.eventActions(title)}
+					{this.eventActions(id, title, isRegistered)}
 				</View>
 			);
 		}
@@ -91,36 +97,63 @@ class EventPage extends Component {
 			</CMDLine>
 		);
 	}
-	eventActions(title) {
+	eventActions(id, title, isRegistered) {
+		const actions = [];
+
+		if (isRegistered) {
+			actions.push(
+				<ActionListItem 
+					title="unreg"
+					desc="Cancel this event for you."
+					onPress={() => { this.props.unregisterEvent(id, title); }}
+				/>
+			);
+		} else {
+			actions.push(
+				<ActionListItem 
+					title="reg"
+					desc="You can register for this event and start to find team members!"
+					onPress={() => { this.props.registerEvent(id, title); }}
+				/>
+			);
+		}
+
+		actions.push(
+			<ActionListItem 
+				title="people"
+				desc="View all participants\'s profile."
+				onPress={() => {}}
+			/>
+		);
+		actions.push(
+			<ActionListItem 
+				title="profile"
+				desc="View your profile."
+				onPress={() => {}}
+			/>
+		);
+
 		return (
-			<View 
-				style={{}}
-			>
+			<View>
 				<CommandMsg title={title} command="actions" >
 				Actions:
 				</CommandMsg>
-				<ActionListItem 
-					title="join"
-					desc="You can join this event and start to find team members!"
-					onPress={() => {}}
-				/>
-				<ActionListItem 
-					title="people"
-					desc="View all participants\'s profile."
-					onPress={() => {}}
-				/>
-				<ActionListItem 
-					title="profile"
-					desc="View your profile."
-					onPress={() => {}}
-				/>
-				<ActionListItem 
-					title="exit"
-					desc="Cancel this event for you."
-					onPress={() => {}}
-				/>
+				{actions}
 			</View>
 		);
+	}
+	actionMessage() {
+		if (this.actionMsg) {
+			const { title, command, children } = this.actionMsg;
+			return (
+				<CommandMsg 
+					title={title} 
+					command={command}
+				>
+				{children}
+				</CommandMsg>
+			);
+		}
 	}
 	render() {
 		const { title } = this.props.event;
@@ -133,18 +166,20 @@ class EventPage extends Component {
 		return (
 			<ScrollView style={pageStyle} >
 				<LastFetchMsg />
-				<CommandMsg title={'fetch event ' + title} />
+				<CommandMsg title={`fetch event ${title}`} />
 				{this.eventDetail()}
+				{this.actionMessage()}
+				<View style={{ height: 50 }} />
 			</ScrollView>
 		);
 	}
 }
 
 const mapStateToProps = ({ event }) => {
-	const { currentEvent } = event;
-	return { currentEvent };
+	const { currentEvent, actionMsg } = event;
+	return { currentEvent, actionMsg };
 };
 
 export default connect(mapStateToProps, {
-	getEvent
+	getEvent, registerEvent, unregisterEvent
 })(EventPage);
