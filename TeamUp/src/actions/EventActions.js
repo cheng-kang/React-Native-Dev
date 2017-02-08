@@ -7,6 +7,11 @@ export const getMyEventList = () => {
 	const { currentUser } = firebase.auth();
 
 	return (dispatch) => {
+		// prepare user's name for later usage
+		firebase.database().ref(`/users/${currentUser.uid}/name`)
+			.on('value', snapshot => {
+				dispatch({ type: Event.GetNameSuccess, payload: snapshot.val() });
+			});
 		firebase.database().ref(`/users/${currentUser.uid}/events`)
 			.on('value', snapshot => {
 				const events = _.map(snapshot.val(), (val, id) => {
@@ -14,6 +19,19 @@ export const getMyEventList = () => {
 				});
 				dispatch({ type: Event.GetMyEventListSuccess, payload: events });
 			});
+	};
+};
+
+export const updateCurrentEvent = (event) => {
+	return {
+		type: Event.UpdateCurrentEvent,
+		payload: event
+	};
+};
+
+export const resetActionMsg = () => {
+	return {
+		type: Event.ResetActionMsg
 	};
 };
 
@@ -41,14 +59,15 @@ export const getEventList = () => {
 	};
 };
 
-export const registerEvent = (id, title) => {
+export const registerEvent = (id, title, name) => {
 	const { currentUser } = firebase.auth();
 	const date = (new Date()).toUTCString();
 	const updates = {};
 	updates[`/events/${id}/registeredUser/${currentUser.uid}`] = {
-		regDate: date
+		regDate: date,
+		name
 	};
-	updates[`/users/events/${id}`] = {
+	updates[`/users/${currentUser.uid}/events/${id}`] = {
 		date,
 		title
 	};
@@ -83,7 +102,7 @@ export const unregisterEvent = (id, title) => {
 	const { currentUser } = firebase.auth();
 	const updates = {};
 	updates[`/events/${id}/registeredUser/${currentUser.uid}`] = null;
-	updates[`/users/events/${id}`] = null;
+	updates[`/users/${currentUser.uid}/events/${id}`] = null;
 
 	return (dispatch) => {
 		firebase.database().ref()
@@ -107,5 +126,19 @@ export const unregisterEvent = (id, title) => {
 					}
 				});
 			});
+	};
+};
+
+export const selectUser = (id) => {
+	return {
+		type: Event.SelectUser,
+		payload: id
+	};
+};
+
+export const deselectUser = () => {
+	return {
+		type: Event.DeselectUser,
+		payload: null
 	};
 };

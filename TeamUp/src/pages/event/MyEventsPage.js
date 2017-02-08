@@ -53,7 +53,7 @@ class MyEventsPage extends Component {
 		} else if (myEvents.length === 0) {
 			return (
 				<CMDLine style={{ color: 'yellow' }} >
-					MyEventList data not found, go to EventList to join an event.
+					MyEventList data not found, go to Event Square to register an event.
 				</CMDLine>
 			);
 		} 
@@ -66,7 +66,6 @@ class MyEventsPage extends Component {
 					enableEmptySections
 					dataSource={this.dataSource}
 					renderRow={this.renderRow}
-					style={{ }}
 				/>
 			</View>
 		);

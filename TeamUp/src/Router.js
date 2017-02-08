@@ -6,10 +6,19 @@ import SignUpPage from './pages/auth/SignUpPage';
 import MyEventsPage from './pages/event/MyEventsPage';
 import EventPage from './pages/event/EventPage';
 import EventSquarePage from './pages/event/EventSquarePage';
+import AttendantsPage from './pages/event/AttendantsPage';
 import LaunchScreen from './pages/LaunchScreen';
 
 
 const RouterComponent = () => {
+	const sceneStyle = {
+		paddingTop: 65
+	};
+	const backButtonTextStyle = {
+		color: '#fff', 
+		fontWeight: '400', 
+		fontSize: 20
+	};
 	return (
 		<Router 
 			navigationBarStyle={{ backgroundColor: '#121619' }} 
@@ -34,16 +43,16 @@ const RouterComponent = () => {
 						key="signin" 
 						component={SignInPage} 
 						title="Sign In" 
-						sceneStyle={{ paddingTop: 65 }} 
+						sceneStyle={sceneStyle} 
 						initial
 					/>
 					<Scene 
 						key="signup" 
 						component={SignUpPage} 
 						title="Sign Up" 
-						sceneStyle={{ paddingTop: 65 }}
+						sceneStyle={sceneStyle} 
 						backTitle="<-"
-						backButtonTextStyle={{ color: '#fff', fontWeight: '400', fontSize: 20 }}
+						backButtonTextStyle={backButtonTextStyle}
 						hideBackImage
 					/>
 				</Scene>
@@ -55,25 +64,31 @@ const RouterComponent = () => {
 						key="myevents"
 						component={MyEventsPage}
 						title="My Events"
-						sceneStyle={{ paddingTop: 65 }} 
+						sceneStyle={sceneStyle} 
 						initial
 					/>
 					<Scene
 						key="event"
 						component={EventPage}
 						title="Event"
-						sceneStyle={{ paddingTop: 65 }} 
+						sceneStyle={sceneStyle} 
 						backTitle="<-"
-						backButtonTextStyle={{ color: '#fff', fontWeight: '400', fontSize: 20 }}
+						backButtonTextStyle={backButtonTextStyle}
 						hideBackImage
 					/>
 					<Scene
 						key="square"
 						component={EventSquarePage}
 						title="Square"
-						sceneStyle={{ paddingTop: 65 }} 
+						sceneStyle={sceneStyle} 
+					/>
+					<Scene
+						key="attendants"
+						component={AttendantsPage}
+						title="Attendants"
+						sceneStyle={sceneStyle}  
 						backTitle="<-"
-						backButtonTextStyle={{ color: '#fff', fontWeight: '400', fontSize: 20 }}
+						backButtonTextStyle={backButtonTextStyle}
 						hideBackImage
 					/>
 				</Scene>

@@ -16,12 +16,16 @@ export const Auth = {
 };
 
 export const Event = {
+	GetNameSuccess: 'GetNameSuccess',
 	GetMyEventListSuccess: 'GetMyEventListSuccess',
-	GoToEventDetail: 'GoToEventDetail',
+	UpdateCurrentEvent: 'UpdateCurrentEvent',
 	GetEventDetailSuccess: 'GetEventDetailSuccess',
 	GetEventListSuccess: 'GetEventListSuccess',
 	RegisterEventSuccess: 'RegisterEventSuccess',
 	RegisterEventFail: 'RegisterEventFail',
 	UnregisterEventSuccess: 'UnregisterEventSuccess',
 	UnregisterEventFail: 'UnregisterEventFail',
+	SelectUser: 'SelectUser',
+	DeselectUser: 'DeselectUser',
+	ResetActionMsg: 'ResetActionMsg'
 };

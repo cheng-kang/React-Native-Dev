@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { View, ListView, Text } from 'react-native';
+import { View, ListView } from 'react-native';
 import { getEventList } from '../../actions';
 import { CMDLine } from '../../components';
 import { ActionsView, ActionListItem, EventListItem, CommandMsg, LastFetchMsg } from './components';

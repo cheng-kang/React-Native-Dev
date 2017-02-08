@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 import firebase from 'firebase';
-import { getEvent, registerEvent, unregisterEvent } from '../../actions';
+import { getEvent, registerEvent, unregisterEvent, resetActionMsg } from '../../actions';
 import { CMDLine, CMDButton } from '../../components';
 import { ActionListItem, LastFetchMsg, CommandMsg } from './components';
 
 class EventPage extends Component {
 	componentWillMount() {
+		this.currentEvent = null;
 		this.props.getEvent(this.props.event.id);
-		this.currentEvent = this.props.currentEvent;
 
+		this.props.resetActionMsg();
 		this.actionMsg = null;
 	}
 	componentWillReceiveProps(nextProps) {
@@ -65,6 +67,7 @@ class EventPage extends Component {
 	eventDetail() {
 		if (this.currentEvent) {
 			const { id, title, desc, date, location, registeredUser } = this.currentEvent;
+			const { name } = this.props; // user's name
 			const { currentUser } = firebase.auth();
 			const isRegistered = registeredUser && registeredUser[currentUser.uid];
 			const registerText = isRegistered ? 'Registered' : 'Not Registered';
@@ -86,7 +89,7 @@ class EventPage extends Component {
 					{this.detailsViewItem('event', 'Ended')}
 					{this.detailsViewItem('registered', registeredCount)}
 					{this.detailsViewItem('you', registerText)}
-					{this.eventActions(id, title, isRegistered)}
+					{this.eventActions(id, title, name, isRegistered)}
 				</View>
 			);
 		}
@@ -97,39 +100,43 @@ class EventPage extends Component {
 			</CMDLine>
 		);
 	}
-	eventActions(id, title, isRegistered) {
+	eventActions(id, title, name, isRegistered) {
 		const actions = [];
 
 		if (isRegistered) {
 			actions.push(
 				<ActionListItem 
+					key="unreg"
 					title="unreg"
 					desc="Cancel this event for you."
 					onPress={() => { this.props.unregisterEvent(id, title); }}
 				/>
 			);
+			actions.push(
+				<ActionListItem 
+					key="prfl"
+					title="prfl"
+					desc="View your profile."
+					onPress={() => {}}
+				/>
+			);
 		} else {
 			actions.push(
 				<ActionListItem 
+					key="reg"
 					title="reg"
 					desc="You can register for this event and start to find team members!"
-					onPress={() => { this.props.registerEvent(id, title); }}
+					onPress={() => { this.props.registerEvent(id, title, name); }}
 				/>
 			);
 		}
 
 		actions.push(
 			<ActionListItem 
-				title="people"
-				desc="View all participants\'s profile."
-				onPress={() => {}}
-			/>
-		);
-		actions.push(
-			<ActionListItem 
-				title="profile"
-				desc="View your profile."
-				onPress={() => {}}
+				key="attnds"
+				title="attnds"
+				desc="View all attendant's profile."
+				onPress={() => { Actions.attendants(); }}
 			/>
 		);
 
@@ -160,8 +167,7 @@ class EventPage extends Component {
 		const pageStyle = {
 			backgroundColor: '#121619',
 			flexDirection: 'column',
-			flex: 1,
-			paddingBottom: 30
+			flex: 1
 		};
 		return (
 			<ScrollView style={pageStyle} >
@@ -176,10 +182,10 @@ class EventPage extends Component {
 }
 
 const mapStateToProps = ({ event }) => {
-	const { currentEvent, actionMsg } = event;
-	return { currentEvent, actionMsg };
+	const { currentEvent, actionMsg, name } = event;
+	return { currentEvent, actionMsg, name };
 };
 
 export default connect(mapStateToProps, {
-	getEvent, registerEvent, unregisterEvent
+	getEvent, registerEvent, unregisterEvent, resetActionMsg
 })(EventPage);
