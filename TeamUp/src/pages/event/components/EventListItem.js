@@ -4,7 +4,6 @@ import { Actions } from 'react-native-router-flux';
 
 class EventListItem extends Component {
 	render() {
-		console.log(this.props);
 		const { event } = this.props;
 		const { id, title } = event;
 		const itemStyle = {
@@ -17,10 +16,8 @@ class EventListItem extends Component {
 			color: '#fff',
 			fontWeight: '500'
 		};
-		console.log(event);
 		return (
 			<TouchableHighlight 
-				key={id}
 				onPress={() => { 
 					Actions.event({ event });
 				}}

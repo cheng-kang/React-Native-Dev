@@ -30,7 +30,7 @@ class EventSquarePage extends Component {
 			this.dataSource = ds.cloneWithRows(events);
 		}
 	}
-	eventList() {
+	renderEventList() {
 		const { events } = this.props;
 		if (events == null) {
 			return (
@@ -59,7 +59,7 @@ class EventSquarePage extends Component {
 			</View>
 		);
 	}
-	actions(title) {
+	renderActions(title) {
 		const actionList = (
 				<ActionListItem 
 					title="my"
@@ -91,9 +91,9 @@ class EventSquarePage extends Component {
 		return (
 			<View style={pageStyle} >
 				<LastFetchMsg />
-				{this.actions('Square')}
+				{this.renderActions('Square')}
 				<CommandMsg title="fetch eventList" />
-				{this.eventList()}
+				{this.renderEventList()}
 			</View>
 		);
 	}

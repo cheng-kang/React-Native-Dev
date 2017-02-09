@@ -6,7 +6,9 @@ const INITIAL_STATE = {
 	events: null,
 	currentEvent: null,
 	actionMsg: null,
-	selectedUserId: null
+	selectedUserId: null,
+	profile: null,
+	isEditingProfile: false
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -24,6 +26,8 @@ export default (state = INITIAL_STATE, action) => {
 			};
 		case Event.UpdateCurrentEvent:
 			return { ...state, currentEvent: payload };
+		case Event.ResetCurrentEvent:
+			return { ...state, currentEvent: null };
 		case Event.ResetActionMsg:
 			return { ...state, actionMsg: null };
 		case Event.GetEventDetailSuccess:
@@ -42,6 +46,20 @@ export default (state = INITIAL_STATE, action) => {
 			return { ...state, selectedUserId: payload };
 		case Event.DeselectUser:
 			return { ...state, selectedUserId: payload };
+		case Event.SetProfile:
+			return { ...state, profile: payload };
+		case Event.ResetProfile:
+			return { ...state, profile: null };
+		case Event.ExitProfilePage:
+			return { ...state, profile: null };
+		case Event.SaveProfileSuccess:
+			return { ...state, isEditingProfile: false, profile: payload };
+		case Event.SaveProfileFail:
+			return { ...state, isEditingProfile: false };
+		case Event.EditProfile:
+			return { ...state, isEditingProfile: true };
+		case Event.ResetIsEditingProfile:
+			return { ...state, isEditingProfile: false };
 		default:
 			return state;
 	}

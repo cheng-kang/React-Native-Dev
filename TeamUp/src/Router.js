@@ -1,5 +1,5 @@
 import React from 'react';
-import { Scene, Router } from 'react-native-router-flux';
+import { Actions, Scene, Router } from 'react-native-router-flux';
 import FirebaseSwitch from './FirebaseSwitch';
 import SignInPage from './pages/auth/SignInPage';
 import SignUpPage from './pages/auth/SignUpPage';
@@ -7,6 +7,7 @@ import MyEventsPage from './pages/event/MyEventsPage';
 import EventPage from './pages/event/EventPage';
 import EventSquarePage from './pages/event/EventSquarePage';
 import AttendantsPage from './pages/event/AttendantsPage';
+import ProfilePage from './pages/event/ProfilePage';
 import LaunchScreen from './pages/LaunchScreen';
 
 
@@ -86,6 +87,15 @@ const RouterComponent = () => {
 						key="attendants"
 						component={AttendantsPage}
 						title="Attendants"
+						sceneStyle={sceneStyle}  
+						backTitle="<-"
+						backButtonTextStyle={backButtonTextStyle}
+						hideBackImage
+					/>
+					<Scene
+						key="profile"
+						component={ProfilePage}
+						title="Profile"
 						sceneStyle={sceneStyle}  
 						backTitle="<-"
 						backButtonTextStyle={backButtonTextStyle}

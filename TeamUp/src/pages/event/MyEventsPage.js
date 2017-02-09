@@ -42,7 +42,7 @@ class MyEventsPage extends Component {
 		// 		});
 		// }, 500);
 	}
-	eventList() {
+	renderEventList() {
 		const { myEvents } = this.props;
 		if (myEvents == null) {
 			return (
@@ -70,7 +70,7 @@ class MyEventsPage extends Component {
 			</View>
 		);
 	}
-	actions(title) {
+	renderActions(title) {
 		const actionList = (
 				<ActionListItem 
 					title="square"
@@ -87,7 +87,9 @@ class MyEventsPage extends Component {
 	}
 	renderRow(event) {
 		return (
-			<View>
+			<View
+				key={event.id}
+			>
 				<EventListItem event={event} />
 			</View>
 		);
@@ -102,9 +104,9 @@ class MyEventsPage extends Component {
 		return (
 			<View style={pageStyle} >
 				<LastFetchMsg />
-				{this.actions('MyEvents')}
+				{this.renderActions('MyEvents')}
 				<CommandMsg title="fetch myEventList" />
-				{this.eventList()}
+				{this.renderEventList()}
 			</View>
 		);
 	}

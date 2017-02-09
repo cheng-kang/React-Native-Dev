@@ -3,19 +3,24 @@ import { Text } from 'react-native';
 import { CMDLine } from '../../../components';
 
 const CommandMsg = ({ title, children = null, command = null, hideLine = true, childrenStyle }) => {
+	const commandLineStyle = {
+		color: 'rgba(255, 255, 255, 0.7)' // Dim the command text to outstand other contents 
+	};
 	return (
 		<CMDLine>
-		$ {title} {command ? `--${command}` : ''}
-		{hideLine ? '' : '\n\n---------------------------------------'}
-		<Text 
-			style={{ 
-			fontWeight: 'bold', 
-			color: '#e4e40e', 
-			...childrenStyle 
-			}} 
-		>
-		{children ? `\n\n${children}` : ''}
-		</Text>
+			<Text style={commandLineStyle} >
+			$ {title} {command ? `--${command}` : ''}
+			{hideLine ? '' : '\n\n---------------------------------------'}
+			</Text>
+			<Text 
+				style={{ 
+				fontWeight: 'bold', 
+				color: '#e4e40e', 
+				...childrenStyle 
+				}} 
+			>
+			{children ? `\n\n${children}` : ''}
+			</Text>
 		</CMDLine>
 	);
 };

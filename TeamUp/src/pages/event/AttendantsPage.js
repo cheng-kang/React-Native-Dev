@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import { View, Text, ListView, TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { LastFetchMsg, CommandMsg } from './components';
+import { LastFetchMsg, CommandMsg, HashTag, InfoListItem } from './components';
 import { CMDLine } from '../../components';
 import { selectUser, deselectUser } from '../../actions';
 
 class AttendantsPage extends Component {
 	componentWillMount() {
 		this.currentEvent = this.props.currentEvent;
-		console.log(this.props);
 		this.actionMsg = null;
 
 		this.createDataSource(this.props);
@@ -34,49 +33,44 @@ class AttendantsPage extends Component {
 
 		this.dataSource = ds.cloneWithRows(users);
 	}
+	renderTags(tags) {
+		if (!tags) {
+			return '';
+		}
+
+		const hashTag = (tag) => {
+			return (
+				<HashTag key={tag} >{tag}</HashTag>
+			);
+		};
+		const tagsView = [];
+		for (let i = 0; i < tags.length; i++) {
+			tagsView.push(hashTag(tags[i]));
+		}
+		return (<View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start' }} >{tagsView}</View>);
+	}
 	renderRow(user) {
-		const { id, name, regDate, selfTags, targetTags } = user;
+		const { id, name, regDate, selfTags, targetTags, selfDesc, targetDesc } = user;
 		console.log(this.props);
 		const selectedUserId = this.props.selectedUserId;
 		if (selectedUserId === id) {
-			const tagsView = [];
-			if (selfTags) {
-				tagsView.push(
-					<Text>Self Tags:</Text>
-				);
-				for (let i = 0; i < selfTags.length; i++) {
-					tagsView.push(
-						<Text>
-						{selfTags[i]}
-						</Text>
-					);
-				}
-			}
-			if (targetTags) {
-				tagsView.push(
-					<Text>Target Tags:</Text>
-				);
-				for (let i = 0; i < selfTags.length; i++) {
-					tagsView.push(
-						<Text>
-						{selfTags[i]}
-						</Text>
-					);
-				}
-			}
 			return (
 				<TouchableHighlight
 					key={id}
 					onPress={() => { this.props.deselectUser(id); }}
 				>
 					<View style={{ backgroundColor: 'black' }} >
-						<CMDLine>
+						<CMDLine style={{ fontWeight: 'bold' }} >
 						@ {name}
 						</CMDLine>
+						<View style={{ height: 1, marginLeft: 10, marginRight: 10, backgroundColor: '#121619' }} />
 						<CommandMsg title={name} command="details" >
 						Details:
 						</CommandMsg>
-						{tagsView}
+						<InfoListItem name="selfTags" value={this.renderTags(selfTags)} />
+						<InfoListItem name="targetTags" value={this.renderTags(targetTags)} />
+						<InfoListItem name="selfDesc" value={selfDesc || ''} />
+						<InfoListItem name="targetDesc" value={targetDesc || ''} />
 					</View>
 				</TouchableHighlight>
 			);

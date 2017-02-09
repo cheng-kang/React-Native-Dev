@@ -19,6 +19,7 @@ export const Event = {
 	GetNameSuccess: 'GetNameSuccess',
 	GetMyEventListSuccess: 'GetMyEventListSuccess',
 	UpdateCurrentEvent: 'UpdateCurrentEvent',
+	ResetCurrentEvent: 'ResetCurrentEvent',
 	GetEventDetailSuccess: 'GetEventDetailSuccess',
 	GetEventListSuccess: 'GetEventListSuccess',
 	RegisterEventSuccess: 'RegisterEventSuccess',
@@ -27,5 +28,12 @@ export const Event = {
 	UnregisterEventFail: 'UnregisterEventFail',
 	SelectUser: 'SelectUser',
 	DeselectUser: 'DeselectUser',
-	ResetActionMsg: 'ResetActionMsg'
+	ResetActionMsg: 'ResetActionMsg',
+	SetProfile: 'SetProfile',
+	ResetProfile: 'ResetProfile',
+	ExitProfilePage: 'ExitProfilePage',
+	SaveProfileSuccess: 'SaveProfileSuccess',
+	SaveProfileFail: 'SaveProfileFail',
+	EditProfile: 'EditProfile',
+	ResetIsEditingProfile: 'ResetIsEditingProfile'
 };

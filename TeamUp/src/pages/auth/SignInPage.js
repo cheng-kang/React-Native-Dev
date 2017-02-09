@@ -7,7 +7,7 @@ import {
 	ActivityIndicator
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { CMDInput, CMDButton } from '../../components/';
+import { CMDInput, CMDButton, CMDTextarea } from '../../components/';
 import LaunchScreen from '../LaunchScreen';
 import { emailChanged, passwordChanged, signIn } from '../../actions';
 
@@ -36,6 +36,7 @@ class SignInPage extends Component {
 				value={email}
 				placeholder="name@example.com"
 				onChangeText={(text) => { this.props.emailChanged(text); }}
+				keyboardType="email-address"
 			/>
 		);
 	}

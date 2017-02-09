@@ -38,6 +38,7 @@ class SignUpPage extends Component {
 				value={email}
 				placeholder="your email"
 				onChangeText={(text) => { this.props.emailChanged(text); }}
+				keyboardType="email-address"
 			/>
 		);
 	}

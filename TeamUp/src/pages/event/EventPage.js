@@ -1,70 +1,50 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import firebase from 'firebase';
-import { getEvent, registerEvent, unregisterEvent, resetActionMsg } from '../../actions';
-import { CMDLine, CMDButton } from '../../components';
-import { ActionListItem, LastFetchMsg, CommandMsg } from './components';
+import { 
+	getEvent, 
+	registerEvent, 
+	unregisterEvent, 
+	resetActionMsg, 
+	setProfile, 
+	resetProfile,
+	resetCurrentEvent
+} from '../../actions';
+import { CMDLine } from '../../components';
+import { ActionListItem, LastFetchMsg, CommandMsg, InfoListItem } from './components';
 
 class EventPage extends Component {
 	componentWillMount() {
+		this.props.resetCurrentEvent();
 		this.currentEvent = null;
-		this.props.getEvent(this.props.event.id);
 
 		this.props.resetActionMsg();
 		this.actionMsg = null;
+
+		this.props.resetProfile();
+		
+		this.props.getEvent(this.props.event.id);
 	}
 	componentWillReceiveProps(nextProps) {
 		this.currentEvent = nextProps.currentEvent;
+
+		if (this.currentEvent != null && nextProps.profile == null) {
+			const { registeredUser } = this.currentEvent;
+			const { currentUser } = firebase.auth();
+			const isRegistered = registeredUser && registeredUser[currentUser.uid];
+			if (isRegistered) {
+				this.props.setProfile(registeredUser[currentUser.uid]);
+			}
+		}
+
 		const msg = nextProps.actionMsg;
 		if (msg != null) {
 			this.actionMsg = msg;
 		}
 	}
-	detailsViewItem(key, value) {
-		const infoStyle = {
-			fontWeight: '500',
-			marginTop: 10,
-			marginBottom: 10,
-			paddingRight: 10,
-			paddingLeft: 20,
-			color: 'white'
-		};
-		return (
-			<View style={{ flexDirection: 'row', justifyContent: 'flex-start' }} >
-				<Text style={{ flex: 1, ...infoStyle }} >
-				-{key}
-				</Text>
-				<Text style={{ flex: 3, ...infoStyle }} >
-				{value}
-				</Text>
-			</View>
-		);
-	}
-	actionsViewItem(name, desc, onPress) {
-		const infoStyle = {
-			fontWeight: '500',
-			marginBottom: 10,
-			paddingRight: 10,
-			paddingLeft: 20,
-			color: 'white'
-		};
-		return (
-			<View style={{ flexDirection: 'row', justifyContent: 'flex-start' }} >
-				<View style={{ flex: 1 }} >
-					<CMDButton onPress={onPress} >
-					{name}
-					</CMDButton>
-				</View>
-				<Text style={{ flex: 3, ...infoStyle }} >
-				{desc}
-				</Text>
-			</View>
-		);
-	}
-
-	eventDetail() {
+	renderDetail() {
 		if (this.currentEvent) {
 			const { id, title, desc, date, location, registeredUser } = this.currentEvent;
 			const { name } = this.props; // user's name
@@ -79,17 +59,17 @@ class EventPage extends Component {
 					<CommandMsg title={title} command="details" >
 					Info:
 					</CommandMsg>
-					{this.detailsViewItem('title', title)}
-					{this.detailsViewItem('date', date)}
-					{this.detailsViewItem('location', location)}
-					{this.detailsViewItem('desc', desc)}
+					<InfoListItem name="title" value={title} />
+					<InfoListItem name="date" value={date} />
+					<InfoListItem name="location" value={location} />
+					<InfoListItem name="desc" value={desc} />
 					<CommandMsg title={title} command="status" >
 					Status:
 					</CommandMsg>
-					{this.detailsViewItem('event', 'Ended')}
-					{this.detailsViewItem('registered', registeredCount)}
-					{this.detailsViewItem('you', registerText)}
-					{this.eventActions(id, title, name, isRegistered)}
+					<InfoListItem name="event" value="Ended" />
+					<InfoListItem name="attnds" value={registeredCount} />
+					<InfoListItem name="you" value={registerText} />
+					{this.renderActions(id, title, name, isRegistered)}
 				</View>
 			);
 		}
@@ -100,24 +80,47 @@ class EventPage extends Component {
 			</CMDLine>
 		);
 	}
-	eventActions(id, title, name, isRegistered) {
+	renderActionMessage() {
+		if (this.actionMsg) {
+			const { title, command, children } = this.actionMsg;
+			return (
+				<CommandMsg 
+					title={title} 
+					command={command}
+				>
+				{children}
+				</CommandMsg>
+			);
+		}
+	}
+	renderActions(id, title, name, isRegistered) {
 		const actions = [];
 
+		// common actions first
+		actions.push(
+			<ActionListItem 
+				key="attnds"
+				title="attnds"
+				desc="View all attendant's profile."
+				onPress={() => { Actions.attendants(); }}
+			/>
+		);
+
 		if (isRegistered) {
+			actions.push(
+				<ActionListItem 
+					key="prfl"
+					title="prfl"
+					desc="View your profile."
+					onPress={() => { Actions.profile(); }}
+				/>
+			);
 			actions.push(
 				<ActionListItem 
 					key="unreg"
 					title="unreg"
 					desc="Cancel this event for you."
 					onPress={() => { this.props.unregisterEvent(id, title); }}
-				/>
-			);
-			actions.push(
-				<ActionListItem 
-					key="prfl"
-					title="prfl"
-					desc="View your profile."
-					onPress={() => {}}
 				/>
 			);
 		} else {
@@ -131,15 +134,6 @@ class EventPage extends Component {
 			);
 		}
 
-		actions.push(
-			<ActionListItem 
-				key="attnds"
-				title="attnds"
-				desc="View all attendant's profile."
-				onPress={() => { Actions.attendants(); }}
-			/>
-		);
-
 		return (
 			<View>
 				<CommandMsg title={title} command="actions" >
@@ -148,19 +142,6 @@ class EventPage extends Component {
 				{actions}
 			</View>
 		);
-	}
-	actionMessage() {
-		if (this.actionMsg) {
-			const { title, command, children } = this.actionMsg;
-			return (
-				<CommandMsg 
-					title={title} 
-					command={command}
-				>
-				{children}
-				</CommandMsg>
-			);
-		}
 	}
 	render() {
 		const { title } = this.props.event;
@@ -173,8 +154,8 @@ class EventPage extends Component {
 			<ScrollView style={pageStyle} >
 				<LastFetchMsg />
 				<CommandMsg title={`fetch event ${title}`} />
-				{this.eventDetail()}
-				{this.actionMessage()}
+				{this.renderDetail()}
+				{this.renderActionMessage()}
 				<View style={{ height: 50 }} />
 			</ScrollView>
 		);
@@ -182,10 +163,16 @@ class EventPage extends Component {
 }
 
 const mapStateToProps = ({ event }) => {
-	const { currentEvent, actionMsg, name } = event;
-	return { currentEvent, actionMsg, name };
+	const { currentEvent, actionMsg, name, profile } = event;
+	return { currentEvent, actionMsg, name, profile };
 };
 
 export default connect(mapStateToProps, {
-	getEvent, registerEvent, unregisterEvent, resetActionMsg
+	getEvent, 
+	registerEvent, 
+	unregisterEvent, 
+	resetActionMsg, 
+	setProfile, 
+	resetProfile, 
+	resetCurrentEvent
 })(EventPage);
