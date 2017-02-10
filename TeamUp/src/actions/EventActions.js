@@ -221,3 +221,63 @@ export const resetIsEditingProfile = () => {
 		type: Event.ResetIsEditingProfile,
 	};
 };
+
+export const getChatsNotification = () => {
+	console.log('Get Chats Notifications List');
+	const { currentUser } = firebase.auth();
+
+	return (dispatch) => {
+		firebase.database().ref(`/chatsNotification/${currentUser.uid}`)
+			.on('value', snapshot => {
+				let unreadCount = 0;
+				const chatsNotif = _.map(snapshot.val(), (val, id) => {
+					unreadCount += val.unreadCount;
+					return { ...val, id };
+				});
+				console.log(unreadCount);
+				dispatch({ 
+					type: Event.GetChatsNotificationSuccess, 
+					payload: {
+						chatsNotif,
+						unreadCount
+					} });
+			});
+	};
+};
+
+export const getChat = (id) => {
+	console.log('Get Chats Notifications List');
+	const { currentUser } = firebase.auth();
+
+	return (dispatch) => {
+		firebase.database().ref(`/chatsHistory/${currentUser.uid}/${id}`)
+			.on('value', snapshot => {
+				dispatch({ 
+					type: Event.GetChatSuccess, 
+					payload: snapshot.val()
+				});
+			});
+	};
+};
+
+export const clearChatUnreadCount = (id) => {
+	const { currentUser } = firebase.auth();
+	console.log(`Clear unread count for chat: currentUser ${currentUser} with ${id}`);
+
+	const updates = {};
+	updates[`/chatsNotification/${currentUser.uid}/${id}/unreadCount`] = 0;
+	return (dispatch) => {
+		firebase.database().ref()
+			.update(updates)
+			.then(
+				dispatch({
+					type: Event.ClearUnreadMsgSuccess
+				})
+			)
+			.catch(
+				dispatch({
+					type: Event.ClearUnreadMsgFail
+				})
+			);
+	};
+};

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Actions, Scene, Router } from 'react-native-router-flux';
+import { Scene, Router } from 'react-native-router-flux';
 import FirebaseSwitch from './FirebaseSwitch';
 import SignInPage from './pages/auth/SignInPage';
 import SignUpPage from './pages/auth/SignUpPage';
@@ -8,6 +8,8 @@ import EventPage from './pages/event/EventPage';
 import EventSquarePage from './pages/event/EventSquarePage';
 import AttendantsPage from './pages/event/AttendantsPage';
 import ProfilePage from './pages/event/ProfilePage';
+import MsgBoxPage from './pages/event/MsgBoxPage';
+import ChatPage from './pages/event/ChatPage';
 import LaunchScreen from './pages/LaunchScreen';
 
 
@@ -96,6 +98,24 @@ const RouterComponent = () => {
 						key="profile"
 						component={ProfilePage}
 						title="Profile"
+						sceneStyle={sceneStyle}  
+						backTitle="<-"
+						backButtonTextStyle={backButtonTextStyle}
+						hideBackImage
+					/>
+					<Scene
+						key="msgbox"
+						component={MsgBoxPage}
+						title="Messages"
+						sceneStyle={sceneStyle}  
+						backTitle="<-"
+						backButtonTextStyle={backButtonTextStyle}
+						hideBackImage
+					/>
+					<Scene
+						key="chat"
+						component={ChatPage}
+						title="Chat"
 						sceneStyle={sceneStyle}  
 						backTitle="<-"
 						backButtonTextStyle={backButtonTextStyle}

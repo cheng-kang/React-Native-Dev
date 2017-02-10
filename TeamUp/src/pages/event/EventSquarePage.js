@@ -61,11 +61,18 @@ class EventSquarePage extends Component {
 	}
 	renderActions(title) {
 		const actionList = (
+			<View>
 				<ActionListItem 
 					title="my"
 					desc="Go to you event list."
 					onPress={() => { Actions.myevents({ type: 'reset' }); }}
 				/>
+				<ActionListItem 
+					title="msg"
+					desc="Go to Message Box and talk to people!"
+					onPress={() => { Actions.msgbox(); }}
+				/>
+			</View>
 		);
 		return (
 			<ActionsView 

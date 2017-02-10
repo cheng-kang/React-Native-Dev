@@ -3,13 +3,15 @@ import firebase from 'firebase';
 import { View, ListView } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { getMyEventList } from '../../actions';
+import { getMyEventList, getChatsNotification } from '../../actions';
 import { CMDLine } from '../../components';
 import { ActionsView, ActionListItem, EventListItem, CommandMsg, LastFetchMsg } from './components';
 
 class MyEventsPage extends Component {
 	componentWillMount() {
 		this.props.getMyEventList();
+		// to get unreadMsgCount
+		this.props.getChatsNotification();
 
 		this.createDataSource(this.props);
 	}
@@ -71,12 +73,20 @@ class MyEventsPage extends Component {
 		);
 	}
 	renderActions(title) {
+		const { unreadCount } = this.props;
 		const actionList = (
+				<View>
 				<ActionListItem 
 					title="square"
 					desc="Go to Event Square to view all events!"
 					onPress={() => { Actions.square({ type: 'reset' }); }}
 				/>
+				<ActionListItem 
+					title={unreadCount ? `msg (${unreadCount})` : 'msg'}
+					desc="Go to Message Box and talk to people!"
+					onPress={() => { Actions.msgbox(); }}
+				/>
+				</View>
 		);
 		return (
 			<ActionsView 
@@ -113,11 +123,11 @@ class MyEventsPage extends Component {
 }
 
 const mapStateToProps = ({ event }) => {
-	const { myEvents, currentEvent } = event;
+	const { myEvents, currentEvent, unreadCount } = event;
 
-	return { myEvents, currentEvent };
+	return { myEvents, currentEvent, unreadCount };
 };
 
 export default connect(mapStateToProps, {
-	getMyEventList
+	getMyEventList, getChatsNotification
 })(MyEventsPage);

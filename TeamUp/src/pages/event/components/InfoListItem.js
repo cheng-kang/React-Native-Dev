@@ -25,10 +25,10 @@ const InfoListItem = ({ name, value }) => {
 	};
 	return (
 		<View style={{ flexDirection: 'row', justifyContent: 'flex-start' }} >
-			<Text style={{ flex: 1.1, ...infoStyle, flexWrap: 'wrap' }} >
+			<Text style={{ flex: 1.1, ...infoStyle }} >
 			-{name}
 			</Text>
-			{typeof value === 'string' || typeof value == 'number' ? (<Text style={textStyle()} >{value || 'null'}</Text>) : (<View style={{ flex: 3 }} >{value}</View>)}
+			{typeof value === 'string' || typeof value === 'number' ? (<Text style={textStyle()} >{value || 'null'}</Text>) : (<View style={{ flex: 3 }} >{value}</View>)}
 		</View>
 	);
 };

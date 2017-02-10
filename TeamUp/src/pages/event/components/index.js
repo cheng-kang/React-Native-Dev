@@ -5,3 +5,5 @@ export * from './CommandMsg';
 export * from './LastFetchMsg';
 export * from './HashTag';
 export * from './InfoListItem';
+export * from './ChatsListItem';
+export * from './ChatListItem';

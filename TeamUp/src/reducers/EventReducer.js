@@ -8,7 +8,11 @@ const INITIAL_STATE = {
 	actionMsg: null,
 	selectedUserId: null,
 	profile: null,
-	isEditingProfile: false
+	isEditingProfile: false,
+	chats: null,
+	chatsNotif: null,
+	unreadCount: 0,
+	chat: null
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -60,6 +64,12 @@ export default (state = INITIAL_STATE, action) => {
 			return { ...state, isEditingProfile: true };
 		case Event.ResetIsEditingProfile:
 			return { ...state, isEditingProfile: false };
+		case Event.GetChatsSuccess:
+			return { ...state, chats: payload };
+		case Event.GetChatsNotificationSuccess:
+			return { ...state, chatsNotif: payload.chatsNotif, unreadCount: payload.unreadCount };
+		case Event.GetChatSuccess:
+			return { ...state, chat: payload };
 		default:
 			return state;
 	}

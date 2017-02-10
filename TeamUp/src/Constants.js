@@ -16,9 +16,11 @@ export const Auth = {
 };
 
 export const Event = {
+	// MyEvents, Square Page
 	GetNameSuccess: 'GetNameSuccess',
 	GetMyEventListSuccess: 'GetMyEventListSuccess',
 	UpdateCurrentEvent: 'UpdateCurrentEvent',
+	// Event Page
 	ResetCurrentEvent: 'ResetCurrentEvent',
 	GetEventDetailSuccess: 'GetEventDetailSuccess',
 	GetEventListSuccess: 'GetEventListSuccess',
@@ -26,14 +28,31 @@ export const Event = {
 	RegisterEventFail: 'RegisterEventFail',
 	UnregisterEventSuccess: 'UnregisterEventSuccess',
 	UnregisterEventFail: 'UnregisterEventFail',
+	// Attendant Page
 	SelectUser: 'SelectUser',
 	DeselectUser: 'DeselectUser',
+	// Action Message
 	ResetActionMsg: 'ResetActionMsg',
+	// Profile
 	SetProfile: 'SetProfile',
 	ResetProfile: 'ResetProfile',
 	ExitProfilePage: 'ExitProfilePage',
 	SaveProfileSuccess: 'SaveProfileSuccess',
 	SaveProfileFail: 'SaveProfileFail',
 	EditProfile: 'EditProfile',
-	ResetIsEditingProfile: 'ResetIsEditingProfile'
+	ResetIsEditingProfile: 'ResetIsEditingProfile',
+	// Msg Box Page
+	GetChatsSuccess: 'GetChatsSuccess',
+	GetChatsFail: 'GetChatsFail',
+	GetUnreadMsgSuccess: 'GetUnreadMsgSuccess',
+	ClearUnreadMsgSuccess: 'ClearUnreadMsgSuccess',
+	ClearUnreadMsgFail: 'ClearUnreadMsgFail',
+	SendMsgSuccess: 'SendMsgSuccess',
+	SendMsgFail: 'SendMsgFail',
+	GetChatSuccess: 'GetChatSuccess',
+	GetChatFail: 'GetChatFail',
+	DeleteChatSuccess: 'DeleteChatSuccess',
+	DeleteChatFail: 'DeleteChatFail',
+	ResetCurrentChat: 'ResetCurrentChat',
+	GetChatsNotificationSuccess: 'GetChatsNotificationSuccess',
 };

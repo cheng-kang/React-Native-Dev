@@ -7,7 +7,8 @@ const CMDLine = ({ children, style }) => {
 		fontWeight: '500',
 		marginTop: 10,
 		marginBottom: 10,
-		paddingLeft: 10
+		paddingLeft: 10,
+		paddingRight: 10
 
 	};
 	return (
