@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { CMDInput, CMDButton } from '../../components/';
 import { 
+	nameChanged,
 	emailChanged, 
 	passwordChanged, 
 	confirmPasswordChanged, 
@@ -27,6 +28,18 @@ class SignUpPage extends Component {
 				resizeMode="contain"
 			/>
 
+		);
+	}
+
+	NameInput() {
+		const { name } = this.props;
+		return (
+			<CMDInput 
+				label="name"
+				value={name}
+				placeholder="your name"
+				onChangeText={(text) => { this.props.nameChanged(text); }}
+			/>
 		);
 	}
 
@@ -85,11 +98,11 @@ class SignUpPage extends Component {
 	}
 
 	SignUpButton() {
-		const { email, password, confirmPassword, loading } = this.props;
+		const { name, email, password, confirmPassword, loading } = this.props;
 		if (!loading) {
 			return (
 				<CMDButton 
-					onPress={() => { this.props.signUp({ email, password, confirmPassword }); }}
+					onPress={() => { this.props.signUp({ name, email, password, confirmPassword }); }}
 					titleStyle={{ fontSize: 18 }}
 				>
 				sign up
@@ -121,6 +134,7 @@ class SignUpPage extends Component {
 		return (
 			<View style={pageStyle} >
 				{this.TitleLbl()}
+				{this.NameInput()}
 				{this.EmailInput()}
 				{this.PasswordInput()}
 				{this.ConfirmPasswordInput()}
@@ -136,10 +150,10 @@ class SignUpPage extends Component {
 }
 
 const mapStateToProps = ({ auth }) => {
-	const { email, password, confirmPassword, error, loading } = auth;
-	return { email, password, confirmPassword, error, loading };
+	const { name, email, password, confirmPassword, error, loading } = auth;
+	return { name, email, password, confirmPassword, error, loading };
 };
 
 export default connect(mapStateToProps, {
-	emailChanged, passwordChanged, confirmPasswordChanged, signUp, beginSignUp
+	nameChanged, emailChanged, passwordChanged, confirmPasswordChanged, signUp, beginSignUp
 })(SignUpPage);

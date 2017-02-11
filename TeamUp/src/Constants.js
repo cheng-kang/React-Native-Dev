@@ -1,4 +1,5 @@
 export const Auth = {
+	NameChanged: 'NameChanged',
 	EmailChanged: 'EmailChanged',
 	PasswordChanged: 'PasswordChanged',
 	ConfirmPasswordChanged: 'ConfirmPasswordChanged',

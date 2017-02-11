@@ -2,6 +2,13 @@ import { Actions } from 'react-native-router-flux';
 import firebase from 'firebase';
 import { Auth } from '../Constants';
 
+export const nameChanged = (text) => {
+	return {
+		type: Auth.NameChanged,
+		payload: text
+	};
+};
+
 export const emailChanged = (text) => {
 	return {
 		type: Auth.EmailChanged,
@@ -39,14 +46,22 @@ export const beginSignUp = () => {
 	};
 };
 
-export const signUp = ({ email, password, confirmPassword }) => {
+export const signUp = ({ name, email, password, confirmPassword }) => {
 	return (dispatch) => {
 		dispatch({ type: Auth.SignUp });
 		if (password !== confirmPassword) {
 			dispatch({ type: Auth.PasswordNotMatch });
+		} else if (name === '') {
+			dispatch({ type: Auth.SignUpFail });
 		} else {
 			firebase.auth().createUserWithEmailAndPassword(email, password)
-				.then(user => dispatch({ type: Auth.SignUpSuccess, payload: user }))
+				.then(user => {
+					firebase.database().ref(`/users/${user.uid}/name`)
+					.set(name)
+					.then(
+						dispatch({ type: Auth.SignUpSuccess, payload: user })
+					);
+				})
 				.catch(() => dispatch({ type: Auth.SignUpFail }));
 		}
 	};

@@ -1,6 +1,7 @@
 import { Auth } from '../Constants';
 
 const INITIAL_STATE = {
+	name: '',
 	email: '',
 	password: '',
 	confirmPassword: '',
@@ -11,6 +12,8 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
+		case Auth.NameChanged:
+			return { ...state, name: action.payload };
 		case Auth.EmailChanged:
 			return { ...state, email: action.payload };
 		case Auth.PasswordChanged:
