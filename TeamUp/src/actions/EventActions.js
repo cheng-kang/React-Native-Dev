@@ -18,7 +18,7 @@ export const getMyEventList = () => {
 				const events = _.map(snapshot.val(), (val, id) => {
 					return { ...val, id };
 				});
-				dispatch({ type: Event.GetMyEventListSuccess, payload: events });
+				dispatch({ type: Event.GetMyEventListSuccess, payload: events == null ? [] : events });
 			});
 	};
 };
@@ -67,7 +67,7 @@ export const getEventList = () => {
 				const events = _.map(snapshot.val(), (val, id) => {
 					return { ...val, id };
 				});
-				dispatch({ type: Event.GetEventListSuccess, payload: events });
+				dispatch({ type: Event.GetEventListSuccess, payload: events == null ? [] : events });
 			});
 	};
 };
@@ -238,7 +238,7 @@ export const getChatsNotification = () => {
 				dispatch({ 
 					type: Event.GetChatsNotificationSuccess, 
 					payload: {
-						chatsNotif,
+						chatsNotif: chatsNotif == null ? [] : chatsNotif,
 						unreadCount
 					} });
 			});
@@ -254,7 +254,7 @@ export const getChat = (id) => {
 			.on('value', snapshot => {
 				dispatch({ 
 					type: Event.GetChatSuccess, 
-					payload: snapshot.val()
+					payload: snapshot.val() == null ? [] : snapshot.val()
 				});
 			});
 	};
