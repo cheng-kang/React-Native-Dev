@@ -288,6 +288,11 @@ export const sendMsg = (uid, name, msg) => {
 	const date = (new Date()).toUTCString();
 
 	return (dispatch) => {
+	if (!/\S/.test(msg)) {
+		dispatch({
+			type: Event.SendMsgFail
+		});
+	} else {
 	firebase.database().ref(`/users/${uid}/name`)
 		.once('value')
 		.then(snapshot1 => {
@@ -342,5 +347,6 @@ export const sendMsg = (uid, name, msg) => {
 						});
 				});
 		});
+	}
 	};
 };

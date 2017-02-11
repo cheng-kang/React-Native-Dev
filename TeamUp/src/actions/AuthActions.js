@@ -51,7 +51,7 @@ export const signUp = ({ name, email, password, confirmPassword }) => {
 		dispatch({ type: Auth.SignUp });
 		if (password !== confirmPassword) {
 			dispatch({ type: Auth.PasswordNotMatch });
-		} else if (name === '') {
+		} else if (!/\S/.test(name)) {
 			dispatch({ type: Auth.SignUpFail });
 		} else {
 			firebase.auth().createUserWithEmailAndPassword(email, password)
