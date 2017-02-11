@@ -17,6 +17,8 @@ class ChatPage extends Component {
 		this.props.getChat(this.props.id);
 		this.createDataSource(this.props);
 	}
+	componentDidMount() {
+	}
 	componentWillReceiveProps(nextProps) {
 		this.createDataSource(nextProps);
 	}
@@ -45,12 +47,21 @@ class ChatPage extends Component {
 		}
 
 		return (
-			<View>
+			<View
+				style={{
+					flex: 1
+				}}
+			>
 				<CommandMsg title="chat" command={this.props.personName} hideLine={false} />
 				<ListView 
+					ref={component => { this.listView = component; }}
 					enableEmptySections
 					dataSource={this.dataSource}
 					renderRow={this.renderRow.bind(this)}
+					onContentSizeChange={(contentWidth, contentHeight) => {
+						// this.listView.scrollToEnd({ animated: false });
+						this.listView.scrollTo(contentHeight, 0, false);
+					}}
 				/>
 			</View>
 		);
@@ -75,7 +86,6 @@ class ChatPage extends Component {
 			<View style={pageStyle} >
 				<LastFetchMsg />
 				{this.renderList()}
-				<View style={{ flexGrow: 1 }} />
 				<CMDInput 
 					showLabel={false}
 					placeholder="Enter your message."
