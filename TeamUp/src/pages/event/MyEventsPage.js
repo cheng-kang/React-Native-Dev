@@ -33,17 +33,6 @@ class MyEventsPage extends Component {
 			this.dataSource = ds.cloneWithRows(myEvents);
 		}
 	}
-	componentDidMount() {
-		// setTimeout(() => {
-		// 	firebase.auth().signOut()
-		// 		.then(() => {
-		// 			console.log('sign out');
-		// 		})
-		// 		.catch(() => {
-		// 			console.log('sign out fail');
-		// 		});
-		// }, 500);
-	}
 	renderEventList() {
 		const { myEvents } = this.props;
 		if (myEvents == null) {
@@ -85,6 +74,19 @@ class MyEventsPage extends Component {
 					title={unreadCount ? `msg (${unreadCount})` : 'msg'}
 					desc="Go to Message Box and talk to people!"
 					onPress={() => { Actions.msgbox(); }}
+				/>
+				<ActionListItem 
+					title="sign out"
+					desc="Press here to sign out."
+					onPress={() => { 
+						firebase.auth().signOut()
+							.then(() => {
+								console.log('sign out');
+							})
+							.catch(() => {
+								console.log('sign out fail');
+							});
+					}}
 				/>
 				</View>
 		);
