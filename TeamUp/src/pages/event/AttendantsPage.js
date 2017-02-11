@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, ListView, TouchableHighlight } from 'react-native';
+import { View, ListView, TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
+import firebase from 'firebase';
 import _ from 'lodash';
-import { LastFetchMsg, CommandMsg, HashTag, InfoListItem } from './components';
+import { LastFetchMsg, CommandMsg, HashTag, InfoListItem, ActionsView, ActionListItem } from './components';
 import { CMDLine } from '../../components';
 import { selectUser, deselectUser } from '../../actions';
 
@@ -49,21 +51,42 @@ class AttendantsPage extends Component {
 		}
 		return (<View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start' }} >{tagsView}</View>);
 	}
+	renderActions(id, name) {
+		const actionList = (
+				<View>
+				<ActionListItem 
+					title="chat"
+					desc={`Chat with ${name}!`}
+					onPress={() => { Actions.chat({ id, personName: name }); }}
+				/>
+				</View>
+		);
+		return (
+			<ActionsView 
+				title="chat"
+				actionList={actionList}
+			/>
+		);
+	}
 	renderRow(user) {
-		const { id, name, regDate, selfTags, targetTags, selfDesc, targetDesc } = user;
-		console.log(this.props);
+		const { uid, name, regDate, selfTags, targetTags, selfDesc, targetDesc } = user;
+		const { currentUser } = firebase.auth(); 
 		const selectedUserId = this.props.selectedUserId;
-		if (selectedUserId === id) {
+		console.log(uid !== currentUser.uid);
+		console.log(uid);
+		console.log(currentUser.uid);
+		if (selectedUserId === uid) {
 			return (
 				<TouchableHighlight
-					key={id}
-					onPress={() => { this.props.deselectUser(id); }}
+					key={uid}
+					onPress={() => { this.props.deselectUser(); }}
 				>
 					<View style={{ backgroundColor: 'black' }} >
 						<CMDLine style={{ fontWeight: 'bold' }} >
 						@ {name}
 						</CMDLine>
 						<View style={{ height: 1, marginLeft: 10, marginRight: 10, backgroundColor: '#121619' }} />
+						{uid !== currentUser.uid ? this.renderActions(uid, name) : (<View />) }
 						<CommandMsg title={name} command="details" >
 						Details:
 						</CommandMsg>
@@ -77,9 +100,9 @@ class AttendantsPage extends Component {
 		}
 		return (
 			<TouchableHighlight 
-				key={id}
+				key={uid}
 				onPress={() => { 
-					this.props.selectUser(id);
+					this.props.selectUser(uid);
 				}}
 			>
 				<View>
