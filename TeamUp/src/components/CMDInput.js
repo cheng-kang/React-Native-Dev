@@ -1,7 +1,18 @@
 import React from 'react';
 import { TextInput, View, Text, TouchableHighlight } from 'react-native';
 
-const CMDInput = ({ label, value, inputStyle, onChangeText, placeholder, secureTextEntry, onPress = () => {}, showButton = false, showLabel = true }) => {
+const CMDInput = ({ 
+	label, 
+	value, 
+	inputStyle, 
+	onChangeText, 
+	placeholder, 
+	secureTextEntry, 
+	onPress = () => {}, 
+	buttonText, 
+	showButton = false, 
+	showLabel = true 
+}) => {
 	const textInputStyle = {
 		height: 40,
 		paddingLeft: 20,
@@ -43,7 +54,7 @@ const CMDInput = ({ label, value, inputStyle, onChangeText, placeholder, secureT
 							onPress={onPress}
 						>
 							<Text style={{ color: 'white', fontWeight: '500', fontSize: 20 }} >
-							+
+							{buttonText}
 							</Text>
 						</TouchableHighlight>
 					);

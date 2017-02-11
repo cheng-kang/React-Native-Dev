@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { View, ListView } from 'react-native';
 import { connect } from 'react-redux';
-import { CMDLine } from '../../components';
+import { CMDLine, CMDInput } from '../../components';
 import { LastFetchMsg, CommandMsg, ChatListItem } from './components';
-import { clearChatUnreadCount, getChat } from '../../actions';
+import { clearChatUnreadCount, getChat, sendMsg } from '../../actions';
 
 class ChatPage extends Component {
+	state = {
+		msg: ''
+	};
 	componentWillMount() {
 		this.personName = this.props.personName;
 		this.name = this.props.name;
@@ -43,7 +46,7 @@ class ChatPage extends Component {
 
 		return (
 			<View>
-				<CommandMsg title="chat" command="print" hideLine={false} />
+				<CommandMsg title="chat" command={this.props.personName} hideLine={false} />
 				<ListView 
 					enableEmptySections
 					dataSource={this.dataSource}
@@ -71,8 +74,18 @@ class ChatPage extends Component {
 		return (
 			<View style={pageStyle} >
 				<LastFetchMsg />
-				<CommandMsg title={'fetch chats'} />
 				{this.renderList()}
+				<View style={{ flexGrow: 1 }} />
+				<CMDInput 
+					showLabel={false}
+					placeholder="Enter your message."
+					value={this.state.msg}
+					onChangeText={(text) => { this.setState({ msg: text }); }}
+					inputStyle={{ fontWeight: '400', fontSize: 14 }}
+					buttonText=">>"
+					showButton
+					onPress={() => { this.props.sendMsg(this.props.id, this.props.name, this.state.msg); this.setState({ msg: '' }); }}
+				/>
 			</View>
 		);
 	}
@@ -84,5 +97,5 @@ const mapStateToProps = ({ event }) => {
 };
 
 export default connect(mapStateToProps, {
-	clearChatUnreadCount, getChat
+	clearChatUnreadCount, getChat, sendMsg
 })(ChatPage);

@@ -101,6 +101,7 @@ class ProfilePage extends Component {
 						value={this.state.newSelfTag}
 						onChangeText={(text) => { this.setState({ newSelfTag: text }); }}
 						inputStyle={{ fontWeight: '400', fontSize: 14 }}
+						buttonText="+"
 						showButton
 						onPress={() => { this.tagInputOnPress(); }}
 					/>
@@ -113,6 +114,7 @@ class ProfilePage extends Component {
 						value={this.state.newTargetTag}
 						onChangeText={(text) => { this.setState({ newTargetTag: text }); }}
 						inputStyle={{ fontWeight: '400', fontSize: 14 }}
+						buttonText="+"
 						showButton
 						onPress={() => { this.tagInputOnPress(false); }}
 					/>

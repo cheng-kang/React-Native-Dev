@@ -8,9 +8,12 @@ class ChatListItem extends Component {
 		const { name, personName } = this.props;
 		console.log(this.props.chat);
 		console.log(this.props);
-		const viewStyle = {
+		let viewStyle = {
 			paddingBottom: 10
 		};
+		if (fromSelf) {
+			viewStyle = { ...viewStyle, alignItems: 'flex-end' };
+		}
 		const nameStyle = {
 			marginBottom: 0,
 			color: 'white'
@@ -19,7 +22,7 @@ class ChatListItem extends Component {
 			margin: 0, 
 			paddingTop: 0, 
 			paddingBottom: 0, 
-			paddingLeft: 30, 
+			paddingLeft: 25, 
 			paddingRight: 10,
 			color: 'white'
 		};

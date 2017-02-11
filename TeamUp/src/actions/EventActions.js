@@ -281,3 +281,66 @@ export const clearChatUnreadCount = (id) => {
 			);
 	};
 };
+
+export const sendMsg = (uid, name, msg) => {
+	const { currentUser } = firebase.auth();
+	console.log(`Send msg from ${currentUser.uid} to ${uid}`);
+	const date = (new Date()).toUTCString();
+
+	return (dispatch) => {
+	firebase.database().ref(`/users/${uid}/name`)
+		.once('value')
+		.then(snapshot1 => {
+			const friendName = snapshot1.val();
+			firebase.database().ref(`/chatsNotification/${uid}/${currentUser.uid}/unreadCount`)
+				.once('value')
+				.then(snapshot2 => {
+					const friendUnreadCount = snapshot2.val() + 1;
+
+					firebase.database().ref(`/chatsNotification//${currentUser.uid}/${uid}/unreadCount`)
+						.once('value')
+						.then(snapshot3 => {
+							const unreadCount = snapshot3.val();
+							const updates = {};
+							updates[`/chatsNotification/${currentUser.uid}/${uid}`] = {
+								content: msg,
+								date,
+								fromSelf: true,
+								name: friendName,
+								unreadCount
+							};
+							updates[`/chatsNotification/${uid}/${currentUser.uid}`] = {
+								content: msg,
+								date,
+								fromSelf: false,
+								name,
+								unreadCount: friendUnreadCount
+							};
+							firebase.database().ref()
+								.update(updates)
+								.then(
+									firebase.database().ref(`chatsHistory/${currentUser.uid}/${uid}`)
+										.push({
+											content: msg,
+											date,
+											fromSelf: true
+										})
+										.then(
+											firebase.database().ref(`chatsHistory/${uid}/${currentUser.uid}`)
+												.push({
+													content: msg,
+													date,
+													fromSelf: false
+												})
+												.then(
+													dispatch({
+														type: Event.SendMsgSuccess
+													})
+												)
+										)
+								);
+						});
+				});
+		});
+	};
+};

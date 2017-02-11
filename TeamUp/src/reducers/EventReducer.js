@@ -70,6 +70,8 @@ export default (state = INITIAL_STATE, action) => {
 			return { ...state, chatsNotif: payload.chatsNotif, unreadCount: payload.unreadCount };
 		case Event.GetChatSuccess:
 			return { ...state, chat: payload };
+		case Event.SendMsgSuccess:
+			return { ...state };
 		default:
 			return state;
 	}
