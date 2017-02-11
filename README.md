@@ -111,3 +111,19 @@ A repository to record my study progress of react native.
   />
   ```
   My understanding to this issue is that you should pass a `callback function` (method body, instead of a invocation of method) to `onPress` property. 
+
+7. keep a Scrollview (including ListView) component scrolled to the bottom
+
+  Use `ref` to set a reference of the component, then use `onContentSizeChange` to keep track of the scroll view size, and invoke `scrollToEnd` method or `scrollTo(y, x, animated)` method when size changed.
+  
+  I would recommend `scrollToEnd` in this case, because to use `scrollTo` you need to additionally calculate the correct y by subtracting `containnerHeight` from `contentHeight`.
+  ```
+  <ListView 
+					ref={component => { this.listView = component; }}
+					onContentSizeChange={(contentWidth, contentHeight) => {
+						this.listView.scrollToEnd({ animated: false });
+					}}
+					dataSource={this.dataSource}
+					renderRow={this.renderRow.bind(this)}
+	/>
+  ```
