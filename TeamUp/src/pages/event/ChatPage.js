@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, ListView } from 'react-native';
 import { connect } from 'react-redux';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { CMDLine, CMDInput } from '../../components';
 import { LastFetchMsg, CommandMsg, ChatListItem } from './components';
 import { clearChatUnreadCount, getChat, sendMsg } from '../../actions';
@@ -16,8 +17,6 @@ class ChatPage extends Component {
 		this.props.clearChatUnreadCount(this.props.id);
 		this.props.getChat(this.props.id);
 		this.createDataSource(this.props);
-	}
-	componentDidMount() {
 	}
 	componentWillReceiveProps(nextProps) {
 		this.createDataSource(nextProps);
@@ -54,13 +53,12 @@ class ChatPage extends Component {
 			>
 				<CommandMsg title="chat" command={this.props.personName} hideLine={false} />
 				<ListView 
-					ref={component => { this.listView = component; }}
+					ref="listView"
 					enableEmptySections
 					dataSource={this.dataSource}
 					renderRow={this.renderRow.bind(this)}
 					onContentSizeChange={(contentWidth, contentHeight) => {
-						// this.listView.scrollToEnd({ animated: false });
-						this.listView.scrollTo(contentHeight, 0, false);
+						this.refs.listView.scrollToEnd({ animated: false });
 					}}
 				/>
 			</View>
@@ -96,6 +94,7 @@ class ChatPage extends Component {
 					showButton
 					onPress={() => { this.props.sendMsg(this.props.id, this.props.name, this.state.msg); this.setState({ msg: '' }); }}
 				/>
+				<KeyboardSpacer />
 			</View>
 		);
 	}

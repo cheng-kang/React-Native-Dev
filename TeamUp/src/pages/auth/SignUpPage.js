@@ -6,6 +6,7 @@ import {
 	Text,
 	ActivityIndicator
 } from 'react-native';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { CMDInput, CMDButton } from '../../components/';
 import { 
 	nameChanged,
@@ -143,6 +144,7 @@ class SignUpPage extends Component {
 					{this.SignUpButton()}
 					{this.LoadingIndicator()}
 				</View>
+				<KeyboardSpacer />
 			</View>
 
 		);

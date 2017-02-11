@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { CMDInput, CMDButton, CMDTextarea } from '../../components/';
-import LaunchScreen from '../LaunchScreen';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { emailChanged, passwordChanged, signIn } from '../../actions';
 
 class SignInPage extends Component {
@@ -127,6 +127,7 @@ class SignInPage extends Component {
 				</View>
 				<View style={{ flexGrow: 1 }} />
 				{this.SignUpButton()}
+				<KeyboardSpacer />
 			</View>
 
 		);

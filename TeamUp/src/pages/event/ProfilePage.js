@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { LastFetchMsg, CommandMsg, HashTag, ActionListItem, InfoListItem } from './components';
 import { CMDInput, CMDTextarea } from '../../components';
 import { saveProfile, editProfile, resetIsEditingProfile, exitProfilePage } from '../../actions';
@@ -197,6 +198,7 @@ class ProfilePage extends Component {
 				{this.renderActionMessage()}
 				{this.renderDetail()}
 				<View style={{ height: 50 }} />
+				<KeyboardSpacer />
 			</ScrollView>
 		);
 	}
