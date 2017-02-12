@@ -1,6 +1,18 @@
 # React-Native-Dev
 A repository to record my study progress of react native.
 
+## Anchors
+
+- [Showcase](./#showcase)
+- [Notes](./#notes)
+
+## Showcase
+
+1. Team Up Hackers
+
+> A practice project designed for hackathon lovers to build up teams with other people.
+
+![](https://raw.githubusercontent.com/cheng-kang/React-Native-Dev/master/Screenshots/TeamUp-1.gif)
 
 ## Notes
 
