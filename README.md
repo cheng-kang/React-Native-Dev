@@ -3,8 +3,8 @@ A repository to record my study progress of react native.
 
 ## Anchors
 
-- [Showcase](./#showcase)
-- [Notes](./#notes)
+- [Showcase](https://github.com/cheng-kang/React-Native-Dev#showcase)
+- [Notes](https://github.com/cheng-kang/React-Native-Dev#notes)
 
 ## Showcase
 
