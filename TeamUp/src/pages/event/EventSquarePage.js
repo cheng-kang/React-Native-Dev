@@ -60,6 +60,7 @@ class EventSquarePage extends Component {
 		);
 	}
 	renderActions(title) {
+		const { unreadCount } = this.props;
 		const actionList = (
 			<View>
 				<ActionListItem 
@@ -68,7 +69,7 @@ class EventSquarePage extends Component {
 					onPress={() => { Actions.myevents({ type: 'reset' }); }}
 				/>
 				<ActionListItem 
-					title="msg"
+					title={unreadCount ? `msg (${unreadCount})` : 'msg'}
 					desc="Go to Message Box and talk to people!"
 					onPress={() => { Actions.msgbox(); }}
 				/>
@@ -107,9 +108,9 @@ class EventSquarePage extends Component {
 }
 
 const mapStateToProps = ({ event }) => {
-	const { events } = event;
+	const { events, unreadCount } = event;
 	console.log(events);
-	return { events };
+	return { events, unreadCount };
 };
 
 export default connect(mapStateToProps, {
