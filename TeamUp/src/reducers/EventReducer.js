@@ -72,6 +72,8 @@ export default (state = INITIAL_STATE, action) => {
 			return { ...state, chat: payload };
 		case Event.SendMsgSuccess:
 			return { ...state };
+		case Event.Reset:
+			return { ...state, ...INITIAL_STATE };
 		default:
 			return state;
 	}

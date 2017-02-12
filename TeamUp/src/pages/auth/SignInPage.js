@@ -7,16 +7,11 @@ import {
 	ActivityIndicator
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { CMDInput, CMDButton, CMDTextarea } from '../../components/';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
+import { CMDInput, CMDButton } from '../../components/';
 import { emailChanged, passwordChanged, signIn } from '../../actions';
 
 class SignInPage extends Component {
-
-	componentWillMount() {
-		console.log(this.props.data);
-	}
-
 	TitleLbl() {
 		return (
 			<Image 

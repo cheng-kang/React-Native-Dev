@@ -3,6 +3,13 @@ import { Actions } from 'react-native-router-flux';
 import firebase from 'firebase';
 import { Event } from '../Constants';
 
+export const resetEventState = () => {
+	console.log('Reset All Event States');
+	return {
+		type: Event.Reset
+	};
+};
+
 export const getMyEventList = () => {
 	console.log('Get My Event List');
 	const { currentUser } = firebase.auth();

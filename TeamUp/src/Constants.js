@@ -17,6 +17,7 @@ export const Auth = {
 };
 
 export const Event = {
+	Reset: 'Reset',
 	// MyEvents, Square Page
 	GetNameSuccess: 'GetNameSuccess',
 	GetMyEventListSuccess: 'GetMyEventListSuccess',

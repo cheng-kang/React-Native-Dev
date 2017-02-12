@@ -31,6 +31,7 @@ const RouterComponent = () => {
 				key="root"
 				component={FirebaseSwitch}
 				selector={props => props.signedIn == null ? 'launch' : props.signedIn ? 'main' : 'auth'}
+				unmountScenes
 				tabs
 				hideNavBar
 			>
