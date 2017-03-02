@@ -4,6 +4,7 @@ A repository to record my study progress of react native.
 ## Anchors
 
 - [Showcase](https://github.com/cheng-kang/React-Native-Dev#showcase)
+- [Learning Materials](https://github.com/cheng-kang/React-Native-Dev#learning-materials)
 - [Notes](https://github.com/cheng-kang/React-Native-Dev#notes)
 
 ## Showcase
@@ -13,6 +14,10 @@ A repository to record my study progress of react native.
 > A practice project designed for hackathon lovers to build up teams with other people.
 
 ![](https://raw.githubusercontent.com/cheng-kang/React-Native-Dev/master/Screenshots/TeamUp-1.gif)
+
+## Learning Materials
+
+1. [对 react + redux 的解读](https://github.com/bailicangdu/react-pxq)
 
 ## Notes
 
