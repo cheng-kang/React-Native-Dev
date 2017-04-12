@@ -18,6 +18,7 @@ A repository to record my study progress of react native.
 ## Learning Materials
 
 1. [对 react + redux 的解读](https://github.com/bailicangdu/react-pxq)
+2. [React Native Training - GitBook](https://www.gitbook.com/book/unbug/react-native-training/details)
 
 ## Notes
 
@@ -144,3 +145,7 @@ A repository to record my study progress of react native.
 		renderRow={this.renderRow.bind(this)}
 	/>
   ```
+
+8. Repeat / loop animation
+
+	[[Animated] Repeat / loop animation #3664](https://github.com/facebook/react-native/issues/3664)
