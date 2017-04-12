@@ -20,6 +20,7 @@ A repository to record my study progress of react native.
 1. [对 react + redux 的解读](https://github.com/bailicangdu/react-pxq)
 2. [React Native Training - GitBook](https://www.gitbook.com/book/unbug/react-native-training/details)
 3. [React Native Animation Book - GitBook](http://browniefed.com/react-native-animation-book/)
+4. [React Navigation](https://reactnavigation.org/)
 
 ## Notes
 
