@@ -151,3 +151,7 @@ A repository to record my study progress of react native.
 8. Repeat / loop animation
 
 	[[Animated] Repeat / loop animation #3664](https://github.com/facebook/react-native/issues/3664)
+
+9. React Navigation tabbarnavigator issue, tab being switched when keyboard showing up
+
+	[issue#48 - Android - Tab bar is sometimes pushed up by the keyboard](https://github.com/expo/react-native-tab-navigator/issues/48)
