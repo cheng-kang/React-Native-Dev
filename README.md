@@ -15,6 +15,18 @@ A repository to record my study progress of react native.
 
 ![](https://raw.githubusercontent.com/cheng-kang/React-Native-Dev/master/Screenshots/TeamUp-1.gif)
 
+2. react-native-lahk-marquee-label
+
+> A react-native marquee label component.
+
+[![NPM](https://nodei.co/npm/react-native-lahk-marquee-label.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/react-native-lahk-marquee-label/)
+
+3. react-native-lahk-marquee-label-vertical
+
+> A react-native marquee(vertical) label component.
+
+[![NPM](https://nodei.co/npm/react-native-lahk-marquee-label-vertical.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/react-native-lahk-marquee-label-vertical/)
+
 ## Learning Materials
 
 1. [对 react + redux 的解读](https://github.com/bailicangdu/react-pxq)
